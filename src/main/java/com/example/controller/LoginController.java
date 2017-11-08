@@ -1,5 +1,9 @@
 package com.example.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +14,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.api.APIResponse;
 import com.example.model.User;
 import com.example.service.UserService;
+
 
 @Controller
 public class LoginController {
@@ -40,24 +47,30 @@ public class LoginController {
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
+	public @ResponseBody APIResponse createNewUser(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
+		List<String> erros = new ArrayList<>();
 		User userExists = userService.findUserByEmail(user.getEmail());
 		if (userExists != null) {
-			bindingResult
-					.rejectValue("email", "error.user",
-							"There is already a user registered with the email provided");
+			erros.add("There is already a user registered with the email provided");
 		}
-		if (bindingResult.hasErrors()) {
-			modelAndView.setViewName("registration");
-		} else {
+	
 			userService.saveUser(user);
 			modelAndView.addObject("successMessage", "User has been registered successfully");
 			modelAndView.addObject("user", new User());
 			modelAndView.setViewName("registration");
 			
-		}
-		return modelAndView;
+		
+	HashMap<String, Object> authResp = new HashMap<>();
+	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
+	Object token = auth.getCredentials();
+	authResp.put("token", token);
+	authResp.put("user", user);
+	authResp.put("Error", erros);
+    
+
+    return APIResponse.toOkResponse(authResp);
 	}
 	
 	@RequestMapping(value="/admin/home", method = RequestMethod.GET)
@@ -70,6 +83,16 @@ public class LoginController {
 		modelAndView.setViewName("admin/home");
 		return modelAndView;
 	}
+	
+	private void createAuthResponse(User user, HashMap<String, Object> authResp,ArrayList<String> erros) {
+        String token = "";
+        		//Jwts.builder().setSubject(user.getEmail())
+               // .claim("role", user.getRole().name()).setIssuedAt(new Date())
+              // .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
+        authResp.put("token", token);
+        authResp.put("user", user);
+        authResp.put("Error", erros);
+    }
 	
 
 }
