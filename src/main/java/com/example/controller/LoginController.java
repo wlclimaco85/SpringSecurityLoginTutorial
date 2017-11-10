@@ -181,26 +181,26 @@ public class LoginController {
         return new String(decrypted, "UTF-8");
     }
 
-//    private String base64(byte[] bytes) {
-//        return Base64.encodeBase64String(bytes);
-//    }
-//
-//    private byte[] base64(String str) {
-//        return Base64.decodeBase64(str);
-//    }
-//
-//    private String hex(byte[] bytes) {
-//        return Hex.encodeHexString(bytes);
-//    }
-//
-//    private byte[] hex(String str) {
-//        try {
-//            return Hex.decodeHex(str.toCharArray());
-//        }
-//        catch (DecoderException e) {
-//            throw new IllegalStateException(e);
-//        }
-//    }
+    private String base64(byte[] bytes) {
+        return Base64.encodeBase64String(bytes);
+    }
+
+    private byte[] base64(String str) {
+        return Base64.decodeBase64(str);
+    }
+
+    private String hex(byte[] bytes) {
+        return Hex.encodeHexString(bytes);
+    }
+
+    private byte[] hex(String str) {
+        try {
+            return Hex.decodeHex(str.toCharArray());
+        }
+        catch (DecoderException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 	
 
 }

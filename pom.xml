@@ -142,7 +142,10 @@
             <artifactId>logback-classic</artifactId>
             </dependency>
 -->
-
+		<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+</dependency>
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>

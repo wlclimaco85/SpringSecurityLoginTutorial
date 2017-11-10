@@ -21,20 +21,9 @@ import com.example.repository.UserRepository;
 
 @Service
 @Transactional
-public class UserServiceImpl extends BaseJPAServiceImpl<User, Long> implements UserService {
+public class UserServiceImpl implements UserService {
 
-	  private @Autowired UserRepository userRepository;
-
-	    @PostConstruct
-	    public void setupService() {
-	        this.baseJpaRepository = userRepository;
-	        this.entityClass = User.class;
-	        this.baseJpaRepository.setupEntityClass(User.class);
-	    }
-
-
-
-
+	 UserRepository userRepository;
 
 	@Autowired
     private RoleRepository roleRepository;
@@ -52,7 +41,7 @@ public class UserServiceImpl extends BaseJPAServiceImpl<User, Long> implements U
         user.setActive(1);
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		userRepository.insert(user);
+		//userRepository.insert(user);
 	}
 	
 	@Override
@@ -68,8 +57,8 @@ public class UserServiceImpl extends BaseJPAServiceImpl<User, Long> implements U
         user.setCurrentLoginIp(request.getRemoteHost());
         user.setLoginCount(user.getLoginCount() + 1);
         user.setUpdatedAt(new Date());
-
-        return userRepository.update(user);
+        return user;
+      //  return userRepository.update(user);
     }
 
 }

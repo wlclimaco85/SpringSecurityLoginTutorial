@@ -1,6 +1,5 @@
 package com.example.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,17 +20,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.framework.data.JPAEntity;
-
 import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @Table(name = "user")
-public class User extends JPAEntity<Long> implements Serializable {
+public class User{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Column(name = "user_id")
 	private int id;
 	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
@@ -51,7 +48,7 @@ public class User extends JPAEntity<Long> implements Serializable {
 	@Column(name = "active")
 	private int active;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 	@Column(name = "iv")
 	private String iv;
