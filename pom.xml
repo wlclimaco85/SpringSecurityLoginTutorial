@@ -22,6 +22,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<apacheCommonLang.version>2.6</apacheCommonLang.version>
+        <apacheCodec.version>1.9</apacheCodec.version>
+        <apacheXerces.version>2.10.0</apacheXerces.version>
+        <apacheXercesImpl.version>2.11.0</apacheXercesImpl.version>
+        <jackson.version>2.0.0</jackson.version>
+        <googleGson.version>2.3.1</googleGson.version>
+        <fasterxmlJackson.version>2.4.3</fasterxmlJackson.version>
+        <orgJson.version>20141113</orgJson.version>
+        <castor.version>1.3.1</castor.version>
+        <xstream.version>1.4.7</xstream.version>
+        <jayway.version>2.0.0</jayway.version>
 	</properties>
 
 	<dependencies>
@@ -52,13 +63,144 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		
+		 <!-- Hibernate 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.2.12.Final</version>
+        </dependency>
+ -->
+        <!-- JSR 303 with Hibernate EntityValidator 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            </dependency>
+-->		
 		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
 		<dependency>
 			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
 			<version>1.9.21</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		
+		       <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+<dependency>
+    <groupId>org.javassist</groupId>
+    <artifactId>javassist</artifactId>
+    </dependency>
+		        <!-- Apache Commons -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${apacheCommonLang.version}</version>
+        </dependency>
+
+
+        <!-- Apache Codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            </dependency>
+
+
+        <!-- Apache Xerces -->	
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${apacheXercesImpl.version}</version>
+        </dependency>
+<!--
+		<dependency>
+		   <groupId>org.apache.tomcat</groupId>
+		   <artifactId>tomcat-catalina</artifactId>
+		   <version>8.0.5</version>
+		</dependency>
+	-->	
+		<!-- Jackson JSON Processor -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            </dependency>
+
+        <!-- Simple JSON Parser -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            </dependency>
+
+        <!-- Castor -->
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-xml</artifactId>
+            <version>${castor.version}</version>
+        </dependency>
+
+
+        <!-- XStream -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+        </dependency>
+        
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            </dependency>
+
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            </dependency>
 
 
 	</dependencies>

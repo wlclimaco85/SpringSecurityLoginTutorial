@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,15 +19,18 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.example.framework.data.JPAEntity;
+
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User extends JPAEntity<Long> implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
-	private int id;
 	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
 	@NotEmpty(message = "*Please provide an email")
@@ -46,14 +51,27 @@ public class User {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	@Column(name = "iv")
+	private String iv;
+	@Column(name = "iv")
+	private String salt;
+	
+	private int keySize;
+	private int iterations;
+    @Column(name = "loginCount")
+    private @JsonIgnore Integer loginCount;
+    @Column(name = "currentLoginAt")
+    private Date currentLoginAt;
+    @Column(name = "lastLoginAt")
+    private Date lastLoginAt;
+    @Column(name = "currentLoginIp")
+    private @JsonIgnore String currentLoginIp;
+    @Column(name = "lastLoginIp")
+    private @JsonIgnore String lastLoginIp;
+    @Column(name = "updatedAt")
+    private @JsonIgnore Date updatedAt;
+    
+    private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	public String getPassword() {
 		return password;
@@ -101,6 +119,109 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getIv() {
+		return iv;
+	}
+
+	public void setIv(String iv) {
+		this.iv = iv;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public int getKeySize() {
+		return keySize;
+	}
+
+	public void setKeySize(int keySize) {
+		this.keySize = keySize;
+	}
+
+	public int getIterations() {
+		return iterations;
+	}
+
+	public void setIterations(int iterations) {
+		this.iterations = iterations;
+	}
+	
+	/**
+     * Method to create the hash of the password before storing
+     *
+     * @param pass
+     *
+     * @return SHA hash digest of the password
+     */
+    public static synchronized String hashPassword(String pass) {
+        return passwordEncoder.encode(pass);
+    }
+
+    public static synchronized boolean doesPasswordMatch(String rawPass, String encodedPass) {
+        return passwordEncoder.matches(rawPass, encodedPass);
+    }
+
+	public Integer getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public Date getCurrentLoginAt() {
+		return currentLoginAt;
+	}
+
+	public void setCurrentLoginAt(Date currentLoginAt) {
+		this.currentLoginAt = currentLoginAt;
+	}
+
+	public Date getLastLoginAt() {
+		return lastLoginAt;
+	}
+
+	public void setLastLoginAt(Date lastLoginAt) {
+		this.lastLoginAt = lastLoginAt;
+	}
+
+	public String getCurrentLoginIp() {
+		return currentLoginIp;
+	}
+
+	public void setCurrentLoginIp(String currentLoginIp) {
+		this.currentLoginIp = currentLoginIp;
+	}
+
+	public String getLastLoginIp() {
+		return lastLoginIp;
+	}
+
+	public void setLastLoginIp(String lastLoginIp) {
+		this.lastLoginIp = lastLoginIp;
+	}
+
+	public static BCryptPasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
+
+	public static void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+		User.passwordEncoder = passwordEncoder;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 }
