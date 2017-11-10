@@ -10,7 +10,7 @@ import java.util.Collection;
  *
  * Created by Y.Kamesh on 8/2/2015.
  */
-public interface BaseJPARepository<T extends Entity, ID extends Serializable> {
+public interface BaseJPARepository<T extends  Entity, ID extends Serializable> {
     /**
      * Method to setup the class type of the Entity for which
      * the DAO works

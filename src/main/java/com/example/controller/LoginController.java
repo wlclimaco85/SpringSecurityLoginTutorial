@@ -16,15 +16,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,35 +172,35 @@ public class LoginController {
 
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        KeySpec spec = new PBEKeySpec(passPhrase.toCharArray(), hex(salt), iterationCount, keySize);
+        KeySpec spec  =null;//new PBEKeySpec(passPhrase.toCharArray(), hex(salt), iterationCount, keySize);
         SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
-        cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(hex(iv)));
-        byte[] decrypted = cipher.doFinal(base64(userDTO.getPassword()));
+      //  cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(hex(iv)));
+        byte[] decrypted =null;// cipher.doFinal(base64(userDTO.getPassword()));
 
         return new String(decrypted, "UTF-8");
     }
 
-    private String base64(byte[] bytes) {
-        return Base64.encodeBase64String(bytes);
-    }
-
-    private byte[] base64(String str) {
-        return Base64.decodeBase64(str);
-    }
-
-    private String hex(byte[] bytes) {
-        return Hex.encodeHexString(bytes);
-    }
-
-    private byte[] hex(String str) {
-        try {
-            return Hex.decodeHex(str.toCharArray());
-        }
-        catch (DecoderException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+//    private String base64(byte[] bytes) {
+//        return Base64.encodeBase64String(bytes);
+//    }
+//
+//    private byte[] base64(String str) {
+//        return Base64.decodeBase64(str);
+//    }
+//
+//    private String hex(byte[] bytes) {
+//        return Hex.encodeHexString(bytes);
+//    }
+//
+//    private byte[] hex(String str) {
+//        try {
+//            return Hex.decodeHex(str.toCharArray());
+//        }
+//        catch (DecoderException e) {
+//            throw new IllegalStateException(e);
+//        }
+//    }
 	
 
 }

@@ -64,45 +64,14 @@
 			<scope>test</scope>
 		</dependency>
 		
-		 <!-- Hibernate 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>5.2.12.Final</version>
-        </dependency>
- -->
-        <!-- JSR 303 with Hibernate EntityValidator 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            </dependency>
--->		
-		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
-		<dependency>
-			<groupId>net.sourceforge.nekohtml</groupId>
-			<artifactId>nekohtml</artifactId>
-			<version>1.9.21</version><!--$NO-MVN-MAN-VER$-->
-		</dependency>
+
 		
 		       <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
 <dependency>
     <groupId>org.javassist</groupId>
     <artifactId>javassist</artifactId>
     </dependency>
-		        <!-- Apache Commons -->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${apacheCommonLang.version}</version>
-        </dependency>
+
 
 
         <!-- Apache Codec -->
@@ -111,20 +80,7 @@
             <artifactId>commons-codec</artifactId>
             </dependency>
 
-
-        <!-- Apache Xerces -->	
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>${apacheXercesImpl.version}</version>
-        </dependency>
-<!--
-		<dependency>
-		   <groupId>org.apache.tomcat</groupId>
-		   <artifactId>tomcat-catalina</artifactId>
-		   <version>8.0.5</version>
-		</dependency>
-	-->	
+		
 		<!-- Jackson JSON Processor -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -168,7 +124,7 @@
             <version>${xstream.version}</version>
         </dependency>
         
-        <!-- Logging -->
+        <!-- Logging 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -185,7 +141,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             </dependency>
-
+-->
 
         <!-- Test -->
         <dependency>
@@ -201,6 +157,7 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             </dependency>
+
 
 
 	</dependencies>
