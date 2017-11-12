@@ -4,27 +4,22 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.framework.data.BaseJPAServiceImpl;
 import com.example.model.Role;
 import com.example.model.User;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 
+@Service("userService")
+public class UserServiceImpl implements UserService{
 
-@Service
-@Transactional
-public class UserServiceImpl implements UserService {
-
-	 UserRepository userRepository;
-
+	@Autowired
+	private UserRepository userRepository;
 	@Autowired
     private RoleRepository roleRepository;
     @Autowired
@@ -41,24 +36,30 @@ public class UserServiceImpl implements UserService {
         user.setActive(1);
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		//userRepository.insert(user);
+		userRepository.save(user);
 	}
-	
+
 	@Override
-    public boolean isValidPass(User user, String rawPass) {
-        return User.doesPasswordMatch(rawPass, user.getPassword());
-    }
-	
+	public boolean isValidPass(User user, String rawPass) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	@Override
-    public User loginUser(final User user, final HttpServletRequest request) {
-        user.setLastLoginAt(user.getCurrentLoginAt());
+	public User loginUser(User user, HttpServletRequest request) {
+		Integer a = 1;
+    	if(user.getLoginCount() != null)
+    	{
+    		a = user.getLoginCount() + 1;
+    	}
+		user.setLastLoginAt(user.getCurrentLoginAt());
         user.setLastLoginIp(user.getCurrentLoginIp());
         user.setCurrentLoginAt(new Date());
         user.setCurrentLoginIp(request.getRemoteHost());
-        user.setLoginCount(user.getLoginCount() + 1);
+        user.setLoginCount(a);
         user.setUpdatedAt(new Date());
-        return user;
-      //  return userRepository.update(user);
-    }
+
+        return userRepository.save(user);
+	}
 
 }

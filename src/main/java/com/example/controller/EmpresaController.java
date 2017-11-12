@@ -18,28 +18,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.api.APIResponse;
+import com.example.model.Empresa;
+import com.example.model.Endereco;
+import com.example.model.Estado;
 import com.example.model.User;
-import com.example.service.UserService;
+import com.example.service.EmpresaService;
 
 
 @Controller
 public class EmpresaController {
 
 	@Autowired
-	private UserService userService;
+	private EmpresaService userService;
 
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
-	public @ResponseBody APIResponse createNewMensagem(@Valid User user, BindingResult bindingResult) {
+	public ModelAndView createNewMensagem(@Valid Empresa user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
+		Endereco endereco = new Endereco();
+		endereco.setCep("38082243");
+		Estado estado = new Estado();
+		estado.setId(1);
+		endereco.setEstado(estado);
+        endereco.setLogradouro("999999999");
+        endereco.setNumero("999999999");
+        endereco.setCidade("9999999");
+		user.setEndereco(endereco);
+//		Empresa userExists = userService.findEmpresaByEmail(user.getEmail());
+//		if (userExists != null) {
+//			erros.add("There is already a user registered with the email provided");
+//		}
 
-			userService.saveUser(user);
+			userService.saveEmpresa(user);
 			modelAndView.addObject("successMessage", "User has been registered successfully");
 			modelAndView.addObject("user", new User());
 			modelAndView.setViewName("registration");
@@ -54,23 +66,22 @@ public class EmpresaController {
 	authResp.put("Error", erros);
 
 
-    return APIResponse.toOkResponse(authResp);
+    return modelAndView;
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/update", method = RequestMethod.POST)
-	public @ResponseBody APIResponse updateMensagem(@Valid User user, BindingResult bindingResult) {
+	public @ResponseBody APIResponse updateMensagem(@Valid Empresa user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
+		Empresa userExists = userService.findEmpresaByEmail(user.getEmail());
 		if (userExists != null) {
 			erros.add("There is already a user registered with the email provided");
 		}
 
-			userService.saveUser(user);
+			userService.updateEmpresa(user);
 			modelAndView.addObject("successMessage", "User has been registered successfully");
 			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
 
 
 	HashMap<String, Object> authResp = new HashMap<>();
@@ -87,18 +98,13 @@ public class EmpresaController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/delete", method = RequestMethod.POST)
-	public @ResponseBody APIResponse deleteMensagem(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
+	public @ResponseBody APIResponse deleteMensagem(@Valid Empresa user, BindingResult bindingResult) {
+		
 		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
+		
 
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
+			userService.deleteEmpresa(user);
+
 
 
 	HashMap<String, Object> authResp = new HashMap<>();
@@ -115,18 +121,13 @@ public class EmpresaController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/fetchByUser", method = RequestMethod.POST)
-	public @ResponseBody APIResponse fetchByUser(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
+	public @ResponseBody APIResponse fetchByUser(@Valid Empresa user, BindingResult bindingResult) {
+		
 		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
+		
 
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
+		List<Empresa> empresas = userService.findEmpresa(user);
+
 
 
 	HashMap<String, Object> authResp = new HashMap<>();
@@ -134,7 +135,7 @@ public class EmpresaController {
 
 	Object token = auth.getCredentials();
 	authResp.put("token", token);
-	authResp.put("user", user);
+	authResp.put("empresaList", empresas);
 	authResp.put("Error", erros);
 
 

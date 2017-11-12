@@ -26,7 +26,7 @@
         <apacheCodec.version>1.9</apacheCodec.version>
         <apacheXerces.version>2.10.0</apacheXerces.version>
         <apacheXercesImpl.version>2.11.0</apacheXercesImpl.version>
-        <jackson.version>2.0.0</jackson.version>
+        <jackson.version>2.6.0</jackson.version>
         <googleGson.version>2.3.1</googleGson.version>
         <fasterxmlJackson.version>2.4.3</fasterxmlJackson.version>
         <orgJson.version>20141113</orgJson.version>
@@ -64,14 +64,49 @@
 			<scope>test</scope>
 		</dependency>
 		
-
+		 <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+        </dependency>
 		
-		       <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+		 <!-- Hibernate 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.2.12.Final</version>
+        </dependency>
+ -->
+        <!-- JSR 303 with Hibernate EntityValidator 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            </dependency>
+-->		
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml-->
+		<dependency>
+			<groupId>net.sourceforge.nekohtml</groupId>
+			<artifactId>nekohtml</artifactId>
+		</dependency>
+		 
+		       <!-- https://mvnrepository.com/artifact/org.javassist/javassist 
 <dependency>
     <groupId>org.javassist</groupId>
     <artifactId>javassist</artifactId>
-    </dependency>
-
+    </dependency>-->
+		        <!-- Apache Commons -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${apacheCommonLang.version}</version>
+        </dependency>
 
 
         <!-- Apache Codec -->
@@ -80,51 +115,54 @@
             <artifactId>commons-codec</artifactId>
             </dependency>
 
-		
-		<!-- Jackson JSON Processor -->
+
+        <!-- Apache Xerces -->	
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${apacheXercesImpl.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
+<!--
+		<dependency>
+		   <groupId>org.apache.tomcat</groupId>
+		   <artifactId>tomcat-catalina</artifactId>
+		   <version>8.0.5</version>
+		</dependency>
+-->		
+		<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>${jackson.version}</version>
+</dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            </dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>${jackson.version}</version>
+</dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            </dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>${jackson.version}</version>
+</dependency>
 
-        <!-- Simple JSON Parser -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            </dependency>
-
-        <!-- Castor -->
+        <!-- Castor 
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml</artifactId>
             <version>${castor.version}</version>
         </dependency>
+ -->
 
-
-        <!-- XStream -->
+        <!-- XStream 
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>${xstream.version}</version>
         </dependency>
-        
-        <!-- Logging 
+       --> 
+        <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -141,11 +179,8 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             </dependency>
--->
-		<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-entitymanager</artifactId>
-</dependency>
+
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
@@ -160,7 +195,6 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             </dependency>
-
 
 
 	</dependencies>

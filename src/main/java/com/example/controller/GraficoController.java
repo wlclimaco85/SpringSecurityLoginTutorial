@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +28,7 @@ public class GraficoController {
 	private UserService userService;
 
 
-	@CrossOrigin(origins = "*")
+//	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/grafico/insert", method = RequestMethod.POST)
 	public @ResponseBody APIResponse createNewMensagem(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -57,7 +56,7 @@ public class GraficoController {
     return APIResponse.toOkResponse(authResp);
 	}
 
-	@CrossOrigin(origins = "*")
+//	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/grafico/update", method = RequestMethod.POST)
 	public @ResponseBody APIResponse updateMensagem(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -85,7 +84,7 @@ public class GraficoController {
     return APIResponse.toOkResponse(authResp);
 	}
 
-	@CrossOrigin(origins = "*")
+//	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/grafico/delete", method = RequestMethod.POST)
 	public @ResponseBody APIResponse deleteMensagem(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -113,7 +112,7 @@ public class GraficoController {
     return APIResponse.toOkResponse(authResp);
 	}
 
-	@CrossOrigin(origins = "*")
+//	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/grafico/fetchByUser", method = RequestMethod.POST)
 	public @ResponseBody APIResponse fetchByUser(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();

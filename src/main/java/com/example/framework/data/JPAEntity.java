@@ -1,11 +1,17 @@
 package com.example.framework.data;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * JPAEntity to declare fields to be in each entity table like id
