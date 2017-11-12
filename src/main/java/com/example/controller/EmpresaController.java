@@ -34,7 +34,7 @@ public class EmpresaController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
-	public ModelAndView createNewMensagem(@Valid Empresa user, BindingResult bindingResult) {
+	public @ResponseBody APIResponse createNewMensagem(@Valid Empresa user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
 		Endereco endereco = new Endereco();
@@ -59,14 +59,13 @@ public class EmpresaController {
 
 	HashMap<String, Object> authResp = new HashMap<>();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
 	Object token = auth.getCredentials();
 	authResp.put("token", token);
 	authResp.put("user", user);
 	authResp.put("Error", erros);
 
 
-    return modelAndView;
+    return APIResponse.toOkResponse(authResp);
 	}
 
 	@CrossOrigin(origins = "*")
