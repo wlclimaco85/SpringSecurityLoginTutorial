@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,10 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.api.APIResponse;
 import com.example.model.Empresa;
+import com.example.model.EmpresaDTO;
 import com.example.model.Endereco;
 import com.example.model.Estado;
+import com.example.model.Horarios;
 import com.example.model.User;
 import com.example.service.EmpresaService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Controller
@@ -34,7 +42,10 @@ public class EmpresaController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
-	public @ResponseBody APIResponse createNewMensagem(@Valid Empresa user, BindingResult bindingResult) {
+	public @ResponseBody APIResponse createNewMensagem(@RequestBody String users) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+	//	String encoded = URLEncoder.encode(users, "UTF-8");
+		Empresa user = mapper.readValue(users, Empresa.class);
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
 		Endereco endereco = new Endereco();
@@ -46,6 +57,20 @@ public class EmpresaController {
         endereco.setNumero("999999999");
         endereco.setCidade("9999999");
 		user.setEndereco(endereco);
+		
+		Horarios hora = new Horarios();
+		hora.setSeg(1);
+		hora.setTer(1);
+		hora.setQua(1);
+		hora.setQui(0);
+		hora.setSex(0);
+		hora.setSab(0);
+		hora.setDom(0);
+		hora.setHoraInicial("08:00");
+		hora.setHoraFinal("22:00");
+		user.setHorarioAberto(new ArrayList<>());
+		user.getHorarioAberto().add(hora);
+		
 //		Empresa userExists = userService.findEmpresaByEmail(user.getEmail());
 //		if (userExists != null) {
 //			erros.add("There is already a user registered with the email provided");

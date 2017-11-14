@@ -1,5 +1,8 @@
 package com.example.model;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,18 +43,6 @@ public class Empresa{
 	@NotEmpty(message = "*Please provide your last name")
 	private String telefone;
 
-	//@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="endereco_id")
-	//@OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL, 
-  //  fetch = FetchType.LAZY, optional = false)
-	
-//	@OneToOne(optional=false)
- //   @JoinColumn(name="endereco_id",updatable=true)
-//	 @OneToOne(fetch = FetchType.LAZY, optional = true)
-//	 @LazyToOne(LazyToOneOption.NO_PROXY)
-//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "empresa")
-//	private Endereco endereco;
-	
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "endereco_id", unique = false, nullable = false, updatable = false)
     private Endereco endereco;
@@ -57,10 +50,11 @@ public class Empresa{
     @Column(name = "endereco_id", insertable = false, updatable = false, nullable = false)
     private Integer enderecoId;
    
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
-//	private Set<Horarios> horarioAberto;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "horario_func", joinColumns = @JoinColumn(name="parent_id", referencedColumnName="empresa_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
+	private List<Horarios> horarioAberto;
 	
+
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
 //	private Set<Horarios> horarioFuncionamento;
@@ -123,6 +117,14 @@ public class Empresa{
 
 	public void setEnderecoId(Integer enderecoId) {
 		this.enderecoId = enderecoId;
+	}
+
+	public List<Horarios> getHorarioAberto() {
+		return horarioAberto;
+	}
+
+	public void setHorarioAberto(List<Horarios> horarioAberto) {
+		this.horarioAberto = horarioAberto;
 	}
 
 //	public Set<Horarios> getHorarioAberto() {
