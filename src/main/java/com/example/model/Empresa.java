@@ -49,11 +49,10 @@ public class Empresa{
 
     @Column(name = "endereco_id", insertable = false, updatable = false, nullable = false)
     private Integer enderecoId;
-   
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "horario_func", joinColumns = @JoinColumn(name="parent_id", referencedColumnName="empresa_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
-	private List<Horarios> horarioAberto;
 	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "empresa_quadra", joinColumns = @JoinColumn(name="empresa_id"), inverseJoinColumns = @JoinColumn(name = "quadra_id"))
+	private List<Quadra> quadras;
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
@@ -119,14 +118,15 @@ public class Empresa{
 		this.enderecoId = enderecoId;
 	}
 
-	public List<Horarios> getHorarioAberto() {
-		return horarioAberto;
+	public List<Quadra> getQuadras() {
+		return quadras;
 	}
 
-	public void setHorarioAberto(List<Horarios> horarioAberto) {
-		this.horarioAberto = horarioAberto;
+	public void setQuadras(List<Quadra> quadras) {
+		this.quadras = quadras;
 	}
 
+	
 //	public Set<Horarios> getHorarioAberto() {
 //		return horarioAberto;
 //	}

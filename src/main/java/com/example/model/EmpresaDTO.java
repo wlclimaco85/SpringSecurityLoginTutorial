@@ -11,7 +11,7 @@ public class EmpresaDTO{
 	private String telefone;
     private Endereco endereco;
     private Integer enderecoId;
-    private List<Horarios> horarioAberto;
+    private List<Quadra> quadras;
 	public int getId() {
 		return id;
 	}
@@ -54,12 +54,14 @@ public class EmpresaDTO{
 	public void setEnderecoId(Integer enderecoId) {
 		this.enderecoId = enderecoId;
 	}
-	public List<Horarios> getHorarioAberto() {
-		return horarioAberto;
+	public List<Quadra> getQuadras() {
+		return quadras;
 	}
-	public void setHorarioAberto(List<Horarios> horarioAberto) {
-		this.horarioAberto = horarioAberto;
+	public void setQuadras(List<Quadra> quadras) {
+		this.quadras = quadras;
 	}
+
+	
 	
 
 

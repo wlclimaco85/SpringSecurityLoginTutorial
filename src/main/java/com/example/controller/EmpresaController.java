@@ -32,65 +32,34 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 @Controller
 public class EmpresaController {
 
 	@Autowired
 	private EmpresaService userService;
 
-
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
-	public @ResponseBody APIResponse createNewMensagem(@RequestBody String users) throws JsonParseException, JsonMappingException, IOException {
+	public @ResponseBody APIResponse createNewMensagem(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-	//	String encoded = URLEncoder.encode(users, "UTF-8");
 		Empresa user = mapper.readValue(users, Empresa.class);
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
-		Endereco endereco = new Endereco();
-		endereco.setCep("38082243");
-		Estado estado = new Estado();
-		estado.setId(1);
-		endereco.setEstado(estado);
-        endereco.setLogradouro("999999999");
-        endereco.setNumero("999999999");
-        endereco.setCidade("9999999");
-		user.setEndereco(endereco);
-		
-		Horarios hora = new Horarios();
-		hora.setSeg(1);
-		hora.setTer(1);
-		hora.setQua(1);
-		hora.setQui(0);
-		hora.setSex(0);
-		hora.setSab(0);
-		hora.setDom(0);
-		hora.setHoraInicial("08:00");
-		hora.setHoraFinal("22:00");
-		user.setHorarioAberto(new ArrayList<>());
-		user.getHorarioAberto().add(hora);
-		
-//		Empresa userExists = userService.findEmpresaByEmail(user.getEmail());
-//		if (userExists != null) {
-//			erros.add("There is already a user registered with the email provided");
-//		}
 
-			userService.saveEmpresa(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
+		userService.saveEmpresa(user);
+		modelAndView.addObject("successMessage", "User has been registered successfully");
+		modelAndView.addObject("user", new User());
+		modelAndView.setViewName("registration");
 
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", erros);
 
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
+		return APIResponse.toOkResponse(authResp);
 	}
 
 	@CrossOrigin(origins = "*")
@@ -103,78 +72,67 @@ public class EmpresaController {
 			erros.add("There is already a user registered with the email provided");
 		}
 
-			userService.updateEmpresa(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
+		userService.updateEmpresa(user);
+		modelAndView.addObject("successMessage", "User has been registered successfully");
+		modelAndView.addObject("user", new User());
 
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", erros);
 
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
+		return APIResponse.toOkResponse(authResp);
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/delete", method = RequestMethod.POST)
 	public @ResponseBody APIResponse deleteMensagem(@Valid Empresa user, BindingResult bindingResult) {
-		
+
 		List<String> erros = new ArrayList<>();
-		
 
-			userService.deleteEmpresa(user);
+		userService.deleteEmpresa(user);
 
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", erros);
 
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
+		return APIResponse.toOkResponse(authResp);
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/fetchByUser", method = RequestMethod.POST)
 	public @ResponseBody APIResponse fetchByUser(@Valid Empresa user, BindingResult bindingResult) {
-		
+
 		List<String> erros = new ArrayList<>();
-		
 
 		List<Empresa> empresas = userService.findEmpresa(user);
 
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("empresaList", empresas);
+		authResp.put("Error", erros);
 
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("empresaList", empresas);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
+		return APIResponse.toOkResponse(authResp);
 	}
 
-	private void createAuthResponse(User user, HashMap<String, Object> authResp,ArrayList<String> erros) {
-        String token = "";
-        		//Jwts.builder().setSubject(user.getEmail())
-               // .claim("role", user.getRole().name()).setIssuedAt(new Date())
-              // .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
-        authResp.put("token", token);
-        authResp.put("user", user);
-        authResp.put("Error", erros);
-    }
-
+	private void createAuthResponse(User user, HashMap<String, Object> authResp, ArrayList<String> erros) {
+		String token = "";
+		// Jwts.builder().setSubject(user.getEmail())
+		// .claim("role", user.getRole().name()).setIssuedAt(new Date())
+		// .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", erros);
+	}
 
 }
