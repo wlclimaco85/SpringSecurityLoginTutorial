@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
@@ -45,9 +44,11 @@ public class Endereco{
 	
 	@Column(name = "cidade")
 	private String cidade;
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="estado_id")
-	private Estado estado;
+	
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = true)
+    private Estado estado;
+	
 	@Column(name = "longi")
 	private String longi;
 	
@@ -57,8 +58,8 @@ public class Endereco{
     @Column(name = "updatedAt")
     private @JsonIgnore Date updatedAt;
     
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "endereco")
-    private Empresa empresa;
+   // @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "endereco")
+   // private Empresa empresa;
     
 	public int getId() {
 		return id;
@@ -96,12 +97,7 @@ public class Endereco{
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-	public Estado getEstado() {
-		return estado;
-	}
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
+	
 	public String getLongi() {
 		return longi;
 	}
@@ -120,16 +116,23 @@ public class Endereco{
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public Empresa getEmpresa() {
-		return empresa;
+//	public Empresa getEmpresa() {
+//		return empresa;
+//	}
+//	public void setEmpresa(Empresa empresa) {
+//		this.empresa = empresa;
+//	}
+//	@PrePersist
+//    public void prePersist() {
+//        if (empresa != null) {
+//            empresa.setEndereco(this);
+//        }
+//    }
+	public Estado getEstado() {
+		return estado;
 	}
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
-	@PrePersist
-    public void prePersist() {
-        if (empresa != null) {
-            empresa.setEndereco(this);
-        }
-    }
+	
 }

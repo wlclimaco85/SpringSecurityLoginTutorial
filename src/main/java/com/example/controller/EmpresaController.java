@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +8,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.api.APIResponse;
 import com.example.model.Empresa;
-import com.example.model.EmpresaDTO;
-import com.example.model.Endereco;
-import com.example.model.Estado;
-import com.example.model.Horarios;
 import com.example.model.User;
 import com.example.service.EmpresaService;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -36,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class EmpresaController {
 
 	@Autowired
-	private EmpresaService userService;
+	private EmpresaService empresaService;
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
@@ -47,9 +44,9 @@ public class EmpresaController {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
 
-		userService.saveEmpresa(user);
+		empresaService.saveEmpresa(user);
 		modelAndView.addObject("successMessage", "User has been registered successfully");
-		modelAndView.addObject("user", new User());
+		modelAndView.addObject("user", new Empresa());
 		modelAndView.setViewName("registration");
 
 		HashMap<String, Object> authResp = new HashMap<>();
@@ -67,14 +64,14 @@ public class EmpresaController {
 	public @ResponseBody APIResponse updateMensagem(@Valid Empresa user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
-		Empresa userExists = userService.findEmpresaByEmail(user.getEmail());
+		Empresa userExists = empresaService.findEmpresaByEmail(user.getEmail());
 		if (userExists != null) {
 			erros.add("There is already a user registered with the email provided");
 		}
 
-		userService.updateEmpresa(user);
+		empresaService.updateEmpresa(user);
 		modelAndView.addObject("successMessage", "User has been registered successfully");
-		modelAndView.addObject("user", new User());
+		modelAndView.addObject("user", new Empresa());
 
 		HashMap<String, Object> authResp = new HashMap<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -93,7 +90,7 @@ public class EmpresaController {
 
 		List<String> erros = new ArrayList<>();
 
-		userService.deleteEmpresa(user);
+		empresaService.deleteEmpresa(user);
 
 		HashMap<String, Object> authResp = new HashMap<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -112,7 +109,7 @@ public class EmpresaController {
 
 		List<String> erros = new ArrayList<>();
 
-		List<Empresa> empresas = userService.findEmpresa(user);
+		List<Empresa> empresas = empresaService.findEmpresaByUser(user);
 
 		HashMap<String, Object> authResp = new HashMap<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -124,15 +121,26 @@ public class EmpresaController {
 
 		return APIResponse.toOkResponse(authResp);
 	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/empresa/fetchAllEmpresa", method = RequestMethod.POST)
+	public ResponseEntity<List<Empresa>> fetchAllEmpresa(@Valid Empresa user, BindingResult bindingResult) {
 
-	private void createAuthResponse(User user, HashMap<String, Object> authResp, ArrayList<String> erros) {
-		String token = "";
-		// Jwts.builder().setSubject(user.getEmail())
-		// .claim("role", user.getRole().name()).setIssuedAt(new Date())
-		// .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
+		List<String> erros = new ArrayList<>();
+
+		List<Empresa> empresas = empresaService.findAllEmpresa();
+
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		Object token = auth.getCredentials();
 		authResp.put("token", token);
-		authResp.put("user", user);
+		authResp.put("empresaList", empresas);
 		authResp.put("Error", erros);
+
+		return new ResponseEntity<List<Empresa>>(empresas, HttpStatus.OK);
 	}
+
+
 
 }
