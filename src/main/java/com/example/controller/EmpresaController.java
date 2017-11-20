@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,8 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.api.APIResponse;
 import com.example.model.Empresa;
-import com.example.model.User;
+import com.example.model.Horarios;
+import com.example.model.Jogo;
+import com.example.model.Jogo.Dias;
+import com.example.model.Jogo.Status;
+import com.example.model.Quadra;
 import com.example.service.EmpresaService;
+import com.example.service.JogoService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +41,9 @@ public class EmpresaController {
 	@Autowired
 	private EmpresaService empresaService;
 
+	@Autowired
+	private JogoService jogoService;
+	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
 	public @ResponseBody APIResponse createNewMensagem(@RequestBody String users)
@@ -45,10 +54,9 @@ public class EmpresaController {
 		List<String> erros = new ArrayList<>();
 
 		empresaService.saveEmpresa(user);
-		modelAndView.addObject("successMessage", "User has been registered successfully");
-		modelAndView.addObject("user", new Empresa());
-		modelAndView.setViewName("registration");
-
+		
+		jogoService.saveJogo(generateJogos(user));
+		
 		HashMap<String, Object> authResp = new HashMap<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Object token = auth.getCredentials();
@@ -121,7 +129,7 @@ public class EmpresaController {
 
 		return APIResponse.toOkResponse(authResp);
 	}
-	
+
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/fetchAllEmpresa", method = RequestMethod.POST)
 	public ResponseEntity<List<Empresa>> fetchAllEmpresa(@Valid Empresa user, BindingResult bindingResult) {
@@ -141,6 +149,65 @@ public class EmpresaController {
 		return new ResponseEntity<List<Empresa>>(empresas, HttpStatus.OK);
 	}
 
+	public List<Jogo> generateJogos(Empresa empresa) {
+		Jogo jogo = new Jogo();
+		List<Jogo> jogos = new ArrayList<>();
+		for (Quadra quadra : empresa.getQuadras()) {
 
+			for (Horarios horario : quadra.getHorarioAberto()) {
+				if (horario.getDom() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.DOMINGO);
+				}
+				if (horario.getSeg() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.SEGUNDA);
+				}
+				if (horario.getTer() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.TERCA);
+				}
+				if (horario.getQua() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.QUARTA);
+				}
+				if (horario.getQui() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.QUINTA);
+				}
+				if (horario.getSex() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.SEXTA);
+				}
+				if (horario.getSab() == 1) {
+					GravarJogo(jogos, quadra, horario, Dias.SABADO);
+				}	
+
+			}
+
+		}
+
+		return jogos;
+	}
+
+	private void GravarJogo(List<Jogo> jogos, Quadra quadra, Horarios horario, Dias dia) {
+
+		
+		Date dateInicial = new Date();
+		String[] horas = horario.getHoraInicial().split(":");
+		dateInicial.setHours(Integer.parseInt(horas[0]));
+		dateInicial.setMinutes(Integer.parseInt(horas[1]));
+
+		Date dateFinal = new Date();
+		horas = horario.getHoraFinal().split(":");
+		dateFinal.setHours(Integer.parseInt(horas[0]));
+		dateFinal.setMinutes(Integer.parseInt(horas[1]));
+		String ultData = "";
+		while (!(ultData.equals(horario.getHoraFinal() ))) {
+			//date = new Date(dateInicial.getTime() + Integer.parseInt(quadra.getTempoJogo()) * 60 * 1000);
+			Jogo jogo = new Jogo();
+			jogo.setDia(dia);
+			jogo.setHoraInicial(dateInicial.getHours() + ":" + dateInicial.getMinutes());
+			dateInicial = new Date(dateInicial.getTime() + Integer.parseInt(quadra.getTempoJogo()) * 60 * 1000);
+			jogo.setHoraFinal(dateInicial.getHours() + ":" + dateInicial.getMinutes());
+			jogo.setStatus(Status.DISPONIVEL);
+			ultData = jogo.getHoraFinal();
+			jogos.add(jogo);
+		}
+	}
 
 }

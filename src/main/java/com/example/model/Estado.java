@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
 @Table(name = "estado")
 public class Estado{
@@ -18,7 +16,6 @@ public class Estado{
 	@Column(name = "estado_id")
 	private int id;
 	@Column(name = "sigla")
-	@NotEmpty(message = "*Please provide an cep")
 	private String sigla;
 	@Column(name = "estado")
 	private String estado;

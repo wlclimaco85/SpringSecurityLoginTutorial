@@ -2,7 +2,6 @@ package com.example.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,16 +38,17 @@ public class Endereco{
 	@Column(name = "numero")
 	private String numero;
 	
+	@Column(name = "bairro")
+	private String bairro;
+	
 	@Column(name = "referencia")
 	private String referencia;
 	
 	@Column(name = "cidade")
 	private String cidade;
-	
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = true)
-    private Estado estado;
-	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="estado_id")
+	private Estado estado;
 	@Column(name = "longi")
 	private String longi;
 	
@@ -133,6 +133,12 @@ public class Endereco{
 	}
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	public String getBairro() {
+		return bairro;
+	}
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
 	}
 	
 }

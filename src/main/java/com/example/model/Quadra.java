@@ -43,6 +43,16 @@ public class Quadra{
 	
 	@Column(name = "valorBola")
 	private Float valorBola;
+	
+	@Column(name = "tempoJogo")
+	private String tempoJogo;
+	
+	@Column(name = "intervalo")
+	private String intervalo;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "horario_Jogo", joinColumns = @JoinColumn(name="parent_id", referencedColumnName="quadra_id"), inverseJoinColumns = @JoinColumn(name = "raxa_id"))
+	private List<Jogo> jogos;
 
 	public int getId() {
 		return id;
@@ -100,7 +110,30 @@ public class Quadra{
 		this.valorBola = valorBola;
 	}
 
-	
+	public List<Jogo> getJogos() {
+		return jogos;
+	}
+
+	public void setJogos(List<Jogo> jogos) {
+		this.jogos = jogos;
+	}
+
+	public String getTempoJogo() {
+		return tempoJogo;
+	}
+
+	public void setTempoJogo(String tempoJogo) {
+		this.tempoJogo = tempoJogo;
+	}
+
+	public String getIntervalo() {
+		return intervalo;
+	}
+
+	public void setIntervalo(String intervalo) {
+		this.intervalo = intervalo;
+	}
+
 
 	
 }

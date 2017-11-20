@@ -1,7 +1,6 @@
 package com.example.model;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -125,6 +124,8 @@ public class Empresa{
 	public void setQuadras(List<Quadra> quadras) {
 		this.quadras = quadras;
 	}
+
+	
 
 	
 //	public Set<Horarios> getHorarioAberto() {
