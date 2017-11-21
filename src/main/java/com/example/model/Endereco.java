@@ -2,6 +2,7 @@ package com.example.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,9 +47,11 @@ public class Endereco{
 	
 	@Column(name = "cidade")
 	private String cidade;
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="estado_id")
+	
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)	
 	private Estado estado;
+	
 	@Column(name = "longi")
 	private String longi;
 	

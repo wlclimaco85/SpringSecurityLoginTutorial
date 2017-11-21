@@ -200,6 +200,7 @@ public class EmpresaController {
 		while (!(ultData.equals(horario.getHoraFinal() ))) {
 			//date = new Date(dateInicial.getTime() + Integer.parseInt(quadra.getTempoJogo()) * 60 * 1000);
 			Jogo jogo = new Jogo();
+			jogo.setQuadraId(quadra.getId());
 			jogo.setDia(dia);
 			jogo.setHoraInicial(dateInicial.getHours() + ":" + dateInicial.getMinutes());
 			dateInicial = new Date(dateInicial.getTime() + Integer.parseInt(quadra.getTempoJogo()) * 60 * 1000);

@@ -46,6 +46,9 @@ public class Jogo{
 	@Column(name = "confirmacao")
 	private Confirmacao confirmacao;
 	
+	@Column(name = "quadra_id")
+	private int quadraId;
+	
 	@Column(name = "horaInicial")
 	private String horaInicial;
 	
@@ -118,6 +121,12 @@ public class Jogo{
 	}
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	public int getQuadraId() {
+		return quadraId;
+	}
+	public void setQuadraId(int quadraId) {
+		this.quadraId = quadraId;
 	}
 	
 	
