@@ -52,6 +52,10 @@ public class Endereco{
     @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)	
 	private Estado estado;
 	
+//	@OneToOne(fetch=FetchType.LAZY)
+//	@JoinColumn(name="estado_id")
+//	private Estado estado;
+	
 	@Column(name = "longi")
 	private String longi;
 	
