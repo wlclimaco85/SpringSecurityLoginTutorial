@@ -48,13 +48,20 @@ public class Endereco{
 	@Column(name = "cidade")
 	private String cidade;
 	
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)	
-	private Estado estado;
+//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+//    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)	
+//	private Estado estado;
 	
 //	@OneToOne(fetch=FetchType.LAZY)
 //	@JoinColumn(name="estado_id")
 //	private Estado estado;
+	
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)
+	private Estado estado;
+
+    @Column(name = "estado_id", insertable = false, updatable = false, nullable = false)
+    private Integer estadoId;
 	
 	@Column(name = "longi")
 	private String longi;
@@ -146,6 +153,12 @@ public class Endereco{
 	}
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
+	}
+	public Integer getEstadoId() {
+		return estadoId;
+	}
+	public void setEstadoId(Integer estadoId) {
+		this.estadoId = estadoId;
 	}
 	
 }
