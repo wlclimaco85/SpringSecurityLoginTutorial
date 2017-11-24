@@ -1,10 +1,12 @@
 package com.example.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,9 +38,22 @@ public class Jogo{
 	@Column(name = "descricao")
 	private String descricao;
 	
+	//@ManyToMany(cascade = CascadeType.ALL)
+	//@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	
+	@Column(name = "user_id")
+	private int userId;
+	
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_jogos",  joinColumns = {
+//			@JoinColumn(name = "jogo_id", nullable = false, updatable = false) },
+//			inverseJoinColumns = { @JoinColumn(name = "user_id",
+//					nullable = false, updatable = false) })
+//	private Set<User> user;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_Jogo", joinColumns = @JoinColumn(name="jogo_id", referencedColumnName="jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> user;
+	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> user;
 	
 	@Column(name = "aceitaExterno")
 	private String aceitaExterno;
@@ -80,10 +95,11 @@ public class Jogo{
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public List<User> getUser() {
+	
+	public Set<User> getUser() {
 		return user;
 	}
-	public void setUser(List<User> user) {
+	public void setUser(Set<User> user) {
 		this.user = user;
 	}
 	public String getAceitaExterno() {
@@ -127,6 +143,12 @@ public class Jogo{
 	}
 	public void setQuadraId(int quadraId) {
 		this.quadraId = quadraId;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
 	

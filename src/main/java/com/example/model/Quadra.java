@@ -52,6 +52,9 @@ public class Quadra{
 	@Column(name = "intervalo")
 	private String intervalo;
 	
+	@Column(name = "empresa_id")
+	private String empresaId;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name= "quadra_id")
 	private List<Jogo> jogos;
@@ -134,6 +137,14 @@ public class Quadra{
 
 	public void setIntervalo(String intervalo) {
 		this.intervalo = intervalo;
+	}
+
+	public String getEmpresaId() {
+		return empresaId;
+	}
+
+	public void setEmpresaId(String empresaId) {
+		this.empresaId = empresaId;
 	}
 
 
