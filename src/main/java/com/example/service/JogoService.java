@@ -12,4 +12,5 @@ public interface JogoService {
 	public List<Jogo> findJogoByUser(Jogo empresa);
 	public List<Jogo> findAllJogo();
 	void saveJogo(List<Jogo> jogos);
+	void saveUpdateJogo(Jogo jogos);
 }

@@ -46,6 +46,10 @@ public class JogoServiceImpl implements JogoService{
 		jogoRepository.save(jogos);
 	}
 	
+	@Override
+	public void saveUpdateJogo(Jogo jogos) {
+		jogoRepository.save(jogos);
+	}
 	
 
 }

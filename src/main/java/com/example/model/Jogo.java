@@ -25,7 +25,7 @@ public class Jogo{
 	    }
 	 
 	 public enum Status {
-	       DISPONIVEL, ACONFIRMAR, OCUPADO, INDISPONIVEL
+	       DISPONIVEL, ACONFIRMAR, OCUPADO, INDISPONIVEL, CONFIRMAR, DESMARCAR
 	    }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
