@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -52,6 +53,14 @@ public class Empresa{
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "empresa_quadra", joinColumns = @JoinColumn(name="empresa_id"), inverseJoinColumns = @JoinColumn(name = "quadra_id"))
 	private List<Quadra> quadras;
+	
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinTable(name = "notificacoes", joinColumns = @JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id"))
+//	private List<Notificacoes> notificacoes;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id")
+	private List<Notificacoes> notificacoes;
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
@@ -123,6 +132,14 @@ public class Empresa{
 
 	public void setQuadras(List<Quadra> quadras) {
 		this.quadras = quadras;
+	}
+
+	public List<Notificacoes> getNotificacoes() {
+		return notificacoes;
+	}
+
+	public void setNotificacoes(List<Notificacoes> notificacoes) {
+		this.notificacoes = notificacoes;
 	}
 
 	

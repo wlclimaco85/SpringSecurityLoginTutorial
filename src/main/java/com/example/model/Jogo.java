@@ -1,7 +1,6 @@
 package com.example.model;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +38,10 @@ public class Jogo{
 	@Column(name = "descricao")
 	private String descricao;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="para_jogo_id", referencedColumnName="jogo_id")
+	private List<Notificacoes> notificacoes;
+	
 	//@ManyToMany(cascade = CascadeType.ALL)
 	//@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	
@@ -53,7 +57,7 @@ public class Jogo{
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> user;
+	private List<User> users;
 	
 	@Column(name = "aceitaExterno")
 	private String aceitaExterno;
@@ -96,12 +100,7 @@ public class Jogo{
 		this.descricao = descricao;
 	}
 	
-	public Set<User> getUser() {
-		return user;
-	}
-	public void setUser(Set<User> user) {
-		this.user = user;
-	}
+	
 	public String getAceitaExterno() {
 		return aceitaExterno;
 	}
@@ -149,6 +148,18 @@ public class Jogo{
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public List<User> getUsers() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	public List<Notificacoes> getNotificacoes() {
+		return notificacoes;
+	}
+	public void setNotificacoes(List<Notificacoes> notificacoes) {
+		this.notificacoes = notificacoes;
 	}
 	
 	
