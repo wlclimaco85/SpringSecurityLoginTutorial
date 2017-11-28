@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.api.APIResponse;
+import com.example.framework.api.APIResponse;
 import com.example.model.User;
 import com.example.service.UserService;
 

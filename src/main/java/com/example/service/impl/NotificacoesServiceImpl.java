@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.service.impl;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.model.Notificacoes;
 import com.example.repository.NotificacoesRepository;
+import com.example.service.NotificacoesService;
 
 @Service("notificacoesService")
 public class NotificacoesServiceImpl implements NotificacoesService{

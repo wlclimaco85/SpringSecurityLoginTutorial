@@ -38,9 +38,9 @@ public class Jogo{
 	@Column(name = "descricao")
 	private String descricao;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="para_jogo_id", referencedColumnName="jogo_id")
-	private List<Notificacoes> notificacoes;
+	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	//@JoinColumn(name="para_jogo_id", referencedColumnName="jogo_id")
+//	private List<Notificacoes> notificacoes;
 	
 	//@ManyToMany(cascade = CascadeType.ALL)
 	//@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -55,9 +55,9 @@ public class Jogo{
 //					nullable = false, updatable = false) })
 //	private Set<User> user;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> users;
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+//	private List<User> users;
 	
 	@Column(name = "aceitaExterno")
 	private String aceitaExterno;
@@ -149,18 +149,18 @@ public class Jogo{
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public List<User> getUsers() {
-		return users;
-	}
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-	public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
+//	public List<User> getUsers() {
+//		return users;
+//	}
+//	public void setUsers(List<User> users) {
+//		this.users = users;
+//	}
+//	public List<Notificacoes> getNotificacoes() {
+//		return notificacoes;
+//	}
+//	public void setNotificacoes(List<Notificacoes> notificacoes) {
+//		this.notificacoes = notificacoes;
+//	}
 	
 	
 }

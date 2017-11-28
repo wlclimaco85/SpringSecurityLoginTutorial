@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.service.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.model.Empresa;
 import com.example.model.Quadra;
 import com.example.repository.QuadraRepository;
+import com.example.service.QuadraService;
 
 @Service("quadraService")
 public class QuadraServiceImpl implements QuadraService{

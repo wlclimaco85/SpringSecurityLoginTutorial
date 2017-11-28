@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.service.impl;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -14,6 +14,7 @@ import com.example.model.Role;
 import com.example.model.User;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
+import com.example.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{

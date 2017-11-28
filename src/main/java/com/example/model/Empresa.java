@@ -58,9 +58,9 @@ public class Empresa{
 //	@JoinTable(name = "notificacoes", joinColumns = @JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id"))
 //	private List<Notificacoes> notificacoes;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id")
-	private List<Notificacoes> notificacoes;
+	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id")
+//	private List<Notificacoes> notificacoes;
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
@@ -134,15 +134,7 @@ public class Empresa{
 		this.quadras = quadras;
 	}
 
-	public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
 
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
-
-	
 
 	
 //	public Set<Horarios> getHorarioAberto() {

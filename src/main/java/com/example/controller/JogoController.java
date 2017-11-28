@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.api.APIResponse;
+import com.example.framework.api.APIResponse;
 import com.example.model.Jogo;
 import com.example.model.Notificacoes;
 import com.example.model.Notificacoes.NotificacoesStatus;

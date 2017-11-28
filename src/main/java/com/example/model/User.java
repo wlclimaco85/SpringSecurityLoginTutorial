@@ -58,9 +58,9 @@ public class User{
 	@Column(name = "salt")
 	private String salt;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="para_user_id", referencedColumnName="user_id")
-	private List<Notificacoes> notificacoes;
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="para_user_id", referencedColumnName="user_id")
+	//private List<Notificacoes> notificacoes;
 	
 	private int keySize;
 	private int iterations;
@@ -76,6 +76,9 @@ public class User{
     private @JsonIgnore String lastLoginIp;
     @Column(name = "updatedAt")
     private @JsonIgnore Date updatedAt;
+    
+    @Column(name = "enabled")
+    private boolean enabled;
     
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -238,12 +241,19 @@ public class User{
 		this.id = id;
 	}
 
-	public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
+//	public List<Notificacoes> getNotificacoes() {
+//		return notificacoes;
+//	}
+//
+//	public void setNotificacoes(List<Notificacoes> notificacoes) {
+//		this.notificacoes = notificacoes;
+//	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
-
+	public boolean isEnabled() {
+        return this.enabled;
+    }
 }
