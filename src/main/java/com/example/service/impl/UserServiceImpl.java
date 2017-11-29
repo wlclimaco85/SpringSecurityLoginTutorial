@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public boolean isValidPass(User user, String rawPass) {
-		// TODO Auto-generated method stub
-		return false;
+		return User.doesPasswordMatch(rawPass, user.getPassword());
 	}
 
 	@Override

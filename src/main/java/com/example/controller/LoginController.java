@@ -1,12 +1,32 @@
 package com.example.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +37,31 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.auth.AuthenticationFailedException;
+import com.example.auth.JWTTokenAuthFilter;
 import com.example.framework.api.APIResponse;
+import com.example.framework.controller.BaseController;
 import com.example.model.User;
+import com.example.model.UserDTO;
+import com.example.service.MailJobService;
 import com.example.service.UserService;
 
-@Controller
-public class LoginController {
-	private static Logger LOG = LoggerFactory.getLogger(LoginController.class);
-	@Autowired
-	private UserService userService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
-	private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
+@Controller
+public class LoginController  extends BaseController {
+    private static Logger LOG = LoggerFactory.getLogger(LoginController.class);
+
+    private @Autowired UserService userService;
+    private @Autowired MailJobService mailJobService;
     
 	@RequestMapping(value={"/"}, method = RequestMethod.GET)
 	public ModelAndView login(){
@@ -41,39 +69,73 @@ public class LoginController {
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
+	@CrossOrigin(origins = "*")
+    @RequestMapping(value = "/authenticate", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody APIResponse authenticater(@RequestBody UserDTO userDTO,
+                                                  HttpServletRequest request, HttpServletResponse response) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, AuthenticationFailedException {
+        Validate.isTrue(StringUtils.isNotBlank(userDTO.getEmail()), "Email is blank");
+        Validate.isTrue(StringUtils.isNotBlank(userDTO.getEncryptedPassword()), "Encrypted password is blank");
+        String password = decryptPassword(userDTO);
+
+        LOG.info("Looking for user by email: "+userDTO.getEmail());
+        User user = userService.findUserByEmail(userDTO.getEmail());
+
+        HashMap<String, Object> authResp = new HashMap<>();
+        if(userService.isValidPass(user, password)) {
+            LOG.info("User authenticated: "+user.getEmail());
+            userService.loginUser(user, request);
+            createAuthResponse(user, authResp);
+        } else {
+            throw new AuthenticationFailedException("Invalid username/password combination");
+        }
+
+        return APIResponse.toOkResponse(authResp);
+    }
+
 	
-	
-	@RequestMapping(value="/registration", method = RequestMethod.GET)
-	public ModelAndView registration(){
-		ModelAndView modelAndView = new ModelAndView();
-		User user = new User();
-		modelAndView.addObject("user", user);
-		modelAndView.setViewName("registration");
-		return modelAndView;
-	}
-	
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			bindingResult
-					.rejectValue("email", "error.user",
-							"There is already a user registered with the email provided");
+	  @RequestMapping(value = "/login", method = RequestMethod.GET, headers = {JSON_API_CONTENT_HEADER})
+	    public @ResponseBody APIResponse authenticate(@RequestBody UserDTO userDTO,
+	                                                  HttpServletRequest request, HttpServletResponse response) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, AuthenticationFailedException {
+	        Validate.isTrue(StringUtils.isNotBlank(userDTO.getEmail()), "Email is blank");
+	        Validate.isTrue(StringUtils.isNotBlank(userDTO.getEncryptedPassword()), "Encrypted password is blank");
+	        String password = decryptPassword(userDTO);
+
+	        LOG.info("Looking for user by email: "+userDTO.getEmail());
+	        User user = userService.findUserByEmail(userDTO.getEmail());
+
+	        HashMap<String, Object> authResp = new HashMap<>();
+	        if(userService.isValidPass(user, password)) {
+	            LOG.info("User authenticated: "+user.getEmail());
+	            userService.loginUser(user, request);
+	            createAuthResponse(user, authResp);
+	        } else {
+	            throw new AuthenticationFailedException("Invalid username/password combination");
+	        }
+
+	        return APIResponse.toOkResponse(authResp);
+	    }
+
+	  @RequestMapping(value = "/registration", method = RequestMethod.POST)
+		public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
+			ModelAndView modelAndView = new ModelAndView();
+			User userExists = userService.findUserByEmail(user.getEmail());
+			if (userExists != null) {
+				bindingResult
+						.rejectValue("email", "error.user",
+								"There is already a user registered with the email provided");
+			}
+			if (bindingResult.hasErrors()) {
+				modelAndView.setViewName("registration");
+			} else {
+				userService.saveUser(user);
+				modelAndView.addObject("successMessage", "User has been registered successfully");
+				modelAndView.addObject("user", new User());
+				modelAndView.setViewName("registration");
+				
+			}
+			return modelAndView;
 		}
-		if (bindingResult.hasErrors()) {
-			modelAndView.setViewName("registration");
-		} else {
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
-			
-		}
-		return modelAndView;
-	}
-	
-	@RequestMapping(value="/login", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/logins", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public  ResponseEntity<User>  home(String email,HttpServletRequest request, HttpServletResponse response){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -86,21 +148,78 @@ public class LoginController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	@RequestMapping(value="/admin/home", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public  @ResponseBody APIResponse  homes(User user,HttpServletRequest request, HttpServletResponse response){
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		user = userService.findUserByEmail(user.getEmail());
-		LOG.info("User authenticated: "+user.getEmail());
-        userService.loginUser(user, request);
-        Object token = auth.getCredentials();
-        HashMap<String, Object> authResp = new HashMap<>();
-    	authResp.put("token", token);
-    	authResp.put("user", user);
-    	authResp.put("Error", "");
+	 public @ResponseBody APIResponse authenticates(String password,String encryptedPassword,String email,String salt,String iv,int keySize,int iterations,String vpassword,
+             HttpServletRequest request, HttpServletResponse response) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, AuthenticationFailedException {
+		//
 
+		UserDTO	userDTO = new UserDTO(email,password,encryptedPassword,iv,salt,keySize,iterations);
+	//	UserDTO	userDTO = new UserDTO();
+Validate.isTrue(StringUtils.isNotBlank(userDTO.getEmail()), "Email is blank");
+Validate.isTrue(StringUtils.isNotBlank(userDTO.getEncryptedPassword()), "Encrypted password is blank");
+String passwords = decryptPassword(userDTO);
 
-        return APIResponse.toOkResponse(authResp);
-	}
+LOG.info("Looking for user by email: "+userDTO.getEmail());
+User user = userService.findUserByEmail(userDTO.getEmail());
+
+HashMap<String, Object> authResp = new HashMap<>();
+if(userService.isValidPass(user, passwords)) {
+LOG.info("User authenticated: "+user.getEmail());
+userService.loginUser(user, request);
+createAuthResponse(user, authResp);
+} else {
+throw new AuthenticationFailedException("Invalid username/password combination");
+}
+
+return APIResponse.toOkResponse(authResp);
+}
+
 	
+	 private String decryptPassword(UserDTO userDTO) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+	        String passPhrase = "biZndDtCMkdeP8K0V15OKMKnSi85";
+	        String salt = userDTO.getSalt();
+	        String iv = userDTO.getIv();
+	        int iterationCount = userDTO.getIterations();
+	        int keySize = userDTO.getKeySize();
+
+	        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+	        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+	        KeySpec spec = new PBEKeySpec(passPhrase.toCharArray(), hex(salt), iterationCount, keySize);
+	        SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+
+	        cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(hex(iv)));
+	        byte[] decrypted = cipher.doFinal(base64(userDTO.getEncryptedPassword()));
+
+	        return new String(decrypted, "UTF-8");
+	    }
+
+	    private String base64(byte[] bytes) {
+	        return Base64.encodeBase64String(bytes);
+	    }
+
+	    private byte[] base64(String str) {
+	        return Base64.decodeBase64(str);
+	    }
+
+	    private String hex(byte[] bytes) {
+	        return Hex.encodeHexString(bytes);
+	    }
+
+	    private byte[] hex(String str) {
+	        try {
+	            return Hex.decodeHex(str.toCharArray());
+	        }
+	        catch (DecoderException e) {
+	            throw new IllegalStateException(e);
+	        }
+	    }
+	    
+	    private void createAuthResponse(User user, HashMap<String, Object> authResp) {
+	        String token = Jwts.builder().setSubject(user.getEmail())
+	                .claim("role", user.getRoles()).setIssuedAt(new Date())
+	                .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
+	        authResp.put("token", token);
+	        authResp.put("user", user);
+	    }
 
 }
 

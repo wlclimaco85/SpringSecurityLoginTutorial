@@ -26,7 +26,7 @@
         <apacheCodec.version>1.9</apacheCodec.version>
         <apacheXerces.version>2.10.0</apacheXerces.version>
         <apacheXercesImpl.version>2.11.0</apacheXercesImpl.version>
-        <jackson.version>2.6.0</jackson.version>
+        <jackson.version>2.8.6</jackson.version>
         <googleGson.version>2.3.1</googleGson.version>
         <fasterxmlJackson.version>2.4.3</fasterxmlJackson.version>
         <orgJson.version>20141113</orgJson.version>
@@ -209,6 +209,17 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
+			<version>1.0.7.RELEASE</version>
+		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
 
 
 	</dependencies>

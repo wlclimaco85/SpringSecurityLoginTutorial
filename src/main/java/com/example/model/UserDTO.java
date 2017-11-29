@@ -76,4 +76,29 @@ public class UserDTO {
     public void setIterations(int iterations) {
         this.iterations = iterations;
     }
+
+	public UserDTO() {
+		super();
+	}
+
+	public UserDTO(String email, String password, String encryptedPassword) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.encryptedPassword = encryptedPassword;
+	}
+
+	public UserDTO(String email, String password, String encryptedPassword, String iv, String salt, int keySize,
+			int iterations) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.encryptedPassword = encryptedPassword;
+		this.iv = iv;
+		this.salt = salt;
+		this.keySize = keySize;
+		this.iterations = iterations;
+	}
+    
+    
 }
