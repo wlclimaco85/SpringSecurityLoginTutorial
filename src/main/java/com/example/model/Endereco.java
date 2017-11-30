@@ -52,13 +52,13 @@ public class Endereco{
 //    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)	
 //	private Estado estado;
 	
-//	@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="estado_id")
-//	private Estado estado;
-	
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="estado_id")
 	private Estado estado;
+	
+//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+//    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)
+//	private Estado estado;
 
     @Column(name = "estado_id", insertable = false, updatable = false, nullable = false)
     private Integer estadoId;

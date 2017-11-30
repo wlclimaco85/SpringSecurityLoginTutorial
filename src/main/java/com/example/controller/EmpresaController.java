@@ -1,15 +1,36 @@
 package com.example.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,50 +43,88 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.auth.JWTTokenAuthFilter;
 import com.example.framework.api.APIResponse;
+import com.example.model.Category;
 import com.example.model.Empresa;
+import com.example.model.EmpresaDTO;
+import com.example.model.Endereco;
 import com.example.model.Horarios;
+import com.example.model.Job;
 import com.example.model.Jogo;
 import com.example.model.Jogo.Dias;
 import com.example.model.Jogo.Status;
+import com.example.model.Notificacoes;
 import com.example.model.Quadra;
+import com.example.model.User;
+import com.example.model.UserDTO;
 import com.example.service.EmpresaService;
+import com.example.service.JobService;
 import com.example.service.JogoService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 @Controller
 public class EmpresaController {
-
+	private static Logger LOG = LoggerFactory.getLogger(EmpresaController.class);
 	@Autowired
 	private EmpresaService empresaService;
 
 	@Autowired
 	private JogoService jogoService;
 	
+    @Autowired
+    private JobService jobService;
+	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST)
-	public @ResponseBody APIResponse createNewMensagem(@RequestBody String users)
+	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody APIResponse createNewMensagem(@RequestBody String user)
 			throws JsonParseException, JsonMappingException, IOException {
+	
 		ObjectMapper mapper = new ObjectMapper();
-		Empresa user = mapper.readValue(users, Empresa.class);
-		ModelAndView modelAndView = new ModelAndView();
-		List<String> erros = new ArrayList<>();
-
-		empresaService.saveEmpresa(user);
+		EmpresaDTO empresaDTO = mapper.readValue(user, EmpresaDTO.class);
 		
-		jogoService.saveJogo(generateJogos(user));
+		Empresa empresa = new  Empresa(empresaDTO.getId(),
+		empresaDTO.getNome(),
+		empresaDTO.getNomeResponsavel(),
+		empresaDTO.getEmail(),
+		empresaDTO.getTelefone(),
+		empresaDTO.getEndereco(),
+		empresaDTO.getEnderecoId(),
+		empresaDTO.getQuadras(),
+		empresaDTO.getNotificacoes());
+
+		empresaService.saveEmpresa(empresa);
+		
+		jogoService.saveJogo(generateJogos(empresa));
 		
 		HashMap<String, Object> authResp = new HashMap<>();
+		createAuthResponse(empresa,empresaDTO.getUserLogado(), authResp);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Object token = auth.getCredentials();
-		authResp.put("token", token);
-		authResp.put("user", user);
-		authResp.put("Error", erros);
 
+	        Job job = new Job();
+	        job.setName("JOB001");
+	        job.setMetadataJson("{}");
+	        job.setCategory(new Category());
+	        job.setCallbackUrl("");
+	        job.setSubmitTime(new Date(System.currentTimeMillis()));
+	        job.setStatus(Job.Status.NEW);
+	        job.setRetryCount(0);
+
+	        try {
+				jobService.insert(job);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		return APIResponse.toOkResponse(authResp);
 	}
+
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/empresa/update", method = RequestMethod.POST)
@@ -103,10 +162,7 @@ public class EmpresaController {
 		HashMap<String, Object> authResp = new HashMap<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		Object token = auth.getCredentials();
-		authResp.put("token", token);
-		authResp.put("user", user);
-		authResp.put("Error", erros);
+		//createAuthResponse(user, authResp);
 
 		return APIResponse.toOkResponse(authResp);
 	}
@@ -210,5 +266,53 @@ public class EmpresaController {
 			jogos.add(jogo);
 		}
 	}
+	private String decryptPassword(UserDTO userDTO) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+        String passPhrase = "biZndDtCMkdeP8K0V15OKMKnSi85";
+        String salt = userDTO.getSalt();
+        String iv = userDTO.getIv();
+        int iterationCount = userDTO.getIterations();
+        int keySize = userDTO.getKeySize();
 
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        KeySpec spec = new PBEKeySpec(passPhrase.toCharArray(), hex(salt), iterationCount, keySize);
+        SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+
+        cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(hex(iv)));
+        byte[] decrypted = cipher.doFinal(base64(userDTO.getEncryptedPassword()));
+
+        return new String(decrypted, "UTF-8");
+    }
+
+    private String base64(byte[] bytes) {
+        return Base64.encodeBase64String(bytes);
+    }
+
+    private byte[] base64(String str) {
+        return Base64.decodeBase64(str);
+    }
+
+    private String hex(byte[] bytes) {
+        return Hex.encodeHexString(bytes);
+    }
+
+    private byte[] hex(String str) {
+        try {
+            return Hex.decodeHex(str.toCharArray());
+        }
+        catch (DecoderException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    private void createAuthResponse(Empresa empresa, User user, HashMap<String, Object> authResp) {
+    	if(user != null)
+    	{
+	        String token = Jwts.builder().setSubject(user.getEmail())
+	                .claim("role", user.getRoles()).setIssuedAt(new Date())
+	                .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
+	        authResp.put("token", token);
+	        authResp.put("user", user);
+    	}
+    }
 }

@@ -2,16 +2,18 @@ package com.example.model;
 
 import java.util.List;
 
-public class EmpresaDTO{
+public class EmpresaDTO extends ModelDTO {
 
 	private int id;
 	private String nome;
 	private String nomeResponsavel;
 	private String email;
 	private String telefone;
-    private Endereco endereco;
-    private Integer enderecoId;
-    private List<Quadra> quadras;
+	private Endereco endereco;
+	private Integer enderecoId;
+	private List<Quadra> quadras;
+	private List<Notificacoes> notificacoes;
+
 	public int getId() {
 		return id;
 	}
@@ -60,10 +62,19 @@ public class EmpresaDTO{
 	public void setQuadras(List<Quadra> quadras) {
 		this.quadras = quadras;
 	}
-
+	public List<Notificacoes> getNotificacoes() {
+		return notificacoes;
+	}
+	public void setNotificacoes(List<Notificacoes> notificacoes) {
+		this.notificacoes = notificacoes;
+	}
 	
-	
+	@Override
+	public String toString() {
+		return "EmpresaDTO [getId()=" + getId() + ", getNome()=" + getNome() + ", getNomeResponsavel()="
+				+ getNomeResponsavel() + ", getEmail()=" + getEmail() + ", getTelefone()=" + getTelefone()
+				+ ", getEndereco()=" + getEndereco() + ", getEnderecoId()=" + getEnderecoId() + ", getQuadras()="
+				+ getQuadras() + ", getNotificacoes()=" + getNotificacoes() + ", toString()=" + super.toString() + "]";
+	}
 
-
-	
 }

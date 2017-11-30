@@ -54,6 +54,7 @@ public class Category extends JPAEntity<Long> {
         this.parentCategory = parentCategory;
     }
 
+    
     @Override
     public String toString() {
         return "Category{" +

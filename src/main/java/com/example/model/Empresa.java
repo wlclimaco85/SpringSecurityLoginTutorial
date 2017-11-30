@@ -142,6 +142,24 @@ public class Empresa{
 		this.notificacoes = notificacoes;
 	}
 
+	public Empresa(int id, String nome, String nomeResponsavel, String email, String telefone, Endereco endereco,
+			Integer enderecoId, List<Quadra> quadras, List<Notificacoes> notificacoes) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.nomeResponsavel = nomeResponsavel;
+		this.email = email;
+		this.telefone = telefone;
+		this.endereco = endereco;
+		this.enderecoId = enderecoId;
+		this.quadras = quadras;
+		this.notificacoes = notificacoes;
+	}
+
+	public Empresa() {
+		super();
+	}
+
 
 
 	
