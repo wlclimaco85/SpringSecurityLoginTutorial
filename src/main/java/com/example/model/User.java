@@ -1,20 +1,18 @@
 package com.example.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -256,4 +254,25 @@ public class User{
 	public boolean isEnabled() {
         return this.enabled;
     }
+
+	public User(String email, String password, String name, String lastName, int active, String roleName,
+			boolean enabled) {
+		super();
+		Role role = new Role(roleName);
+		Set<Role> roles = new LinkedHashSet<Role>();
+		roles.add(role);
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.lastName = lastName;
+		this.active = active;
+		this.roles = roles;
+		this.enabled = enabled;
+	}
+
+	public User() {
+		super();
+	}
+	
+	
 }

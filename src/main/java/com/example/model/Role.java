@@ -29,6 +29,13 @@ public class Role {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public Role(String role) {
+		super();
+		this.role = role;
+	}
+	public Role() {
+		super();
+	}
 	
 	
 }

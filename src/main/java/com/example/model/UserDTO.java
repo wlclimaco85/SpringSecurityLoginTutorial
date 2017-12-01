@@ -1,17 +1,32 @@
 package com.example.model;
 
+import java.util.Date;
+import java.util.Set;
+
 /**
  * @author: kameshr
  */
 public class UserDTO {
-    String email;
-    String password;
-    String displayName;
-    String encryptedPassword;
-    String iv;
-    String salt;
-    int keySize;
-    int iterations;
+
+	private int id;
+	private String email;
+	private String password;
+	private String name;
+	private String lastName;
+	private int active;
+	private Set<Role> roles;
+	private String iv;
+	private String salt;
+	private int keySize;
+	private int iterations;
+    private Integer loginCount;
+    private Date currentLoginAt;
+    private Date lastLoginAt;
+    private String currentLoginIp;
+    private String lastLoginIp;
+    private Date updatedAt;
+    private boolean enabled;
+    private String encryptedPassword;
 
     public String getEmail() {
         return email;
@@ -29,23 +44,105 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
+    
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
+    public int getId() {
+		return id;
+	}
 
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getIv() {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Integer getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public Date getCurrentLoginAt() {
+		return currentLoginAt;
+	}
+
+	public void setCurrentLoginAt(Date currentLoginAt) {
+		this.currentLoginAt = currentLoginAt;
+	}
+
+	public Date getLastLoginAt() {
+		return lastLoginAt;
+	}
+
+	public void setLastLoginAt(Date lastLoginAt) {
+		this.lastLoginAt = lastLoginAt;
+	}
+
+	public String getCurrentLoginIp() {
+		return currentLoginIp;
+	}
+
+	public void setCurrentLoginIp(String currentLoginIp) {
+		this.currentLoginIp = currentLoginIp;
+	}
+
+	public String getLastLoginIp() {
+		return lastLoginIp;
+	}
+
+	public void setLastLoginIp(String lastLoginIp) {
+		this.lastLoginIp = lastLoginIp;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getIv() {
         return iv;
     }
 
@@ -77,6 +174,14 @@ public class UserDTO {
         this.iterations = iterations;
     }
 
+	public String getEncryptedPassword() {
+		return encryptedPassword;
+	}
+
+	public void setEncryptedPassword(String encryptedPassword) {
+		this.encryptedPassword = encryptedPassword;
+	}
+
 	public UserDTO() {
 		super();
 	}
@@ -85,20 +190,17 @@ public class UserDTO {
 		super();
 		this.email = email;
 		this.password = password;
-		this.encryptedPassword = encryptedPassword;
 	}
 
-	public UserDTO(String email, String password, String encryptedPassword, String iv, String salt, int keySize,
+	public UserDTO(String email, String password, String iv, String salt, int keySize,
 			int iterations) {
 		super();
 		this.email = email;
 		this.password = password;
-		this.encryptedPassword = encryptedPassword;
 		this.iv = iv;
 		this.salt = salt;
 		this.keySize = keySize;
 		this.iterations = iterations;
 	}
-    
     
 }
