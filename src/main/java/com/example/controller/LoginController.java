@@ -229,7 +229,7 @@ public class LoginController extends BaseController {
 		String token = Jwts.builder().setSubject(user.getEmail()).claim("role", user.getRoles()).setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
 		authResp.put("token", token);
-		authResp.put("user", user);
+		authResp.put("user", user); 
 	}
 
 }
