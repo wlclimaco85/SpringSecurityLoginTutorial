@@ -45,8 +45,24 @@ public class Jogo{
 	//@ManyToMany(cascade = CascadeType.ALL)
 	//@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	
-	@Column(name = "user_id")
-	private int userId;
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="para_jogo_id", referencedColumnName="jogo_id", nullable = false, insertable = false, updatable = false)
+//	private List<Notificacoes> notificacoes;
+
+//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+//	@JoinColumn(name="user_id", referencedColumnName="user_id", nullable = false, insertable = false, updatable = false)
+//	private User userId;
+	
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+//	
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id",  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private List<User> usersJogo;
+	
+//	@Column(name = "user_id")
+//	private int user_id;
 	
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JoinTable(name = "user_jogos",  joinColumns = {
@@ -143,24 +159,13 @@ public class Jogo{
 	public void setQuadraId(int quadraId) {
 		this.quadraId = quadraId;
 	}
-	public int getUserId() {
-		return userId;
+
+	public List<User> getUsersJogo() {
+		return usersJogo;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUsersJogo(List<User> usersJogo) {
+		this.usersJogo = usersJogo;
 	}
-//	public List<User> getUsers() {
-//		return users;
-//	}
-//	public void setUsers(List<User> users) {
-//		this.users = users;
-//	}
-//	public List<Notificacoes> getNotificacoes() {
-//		return notificacoes;
-//	}
-//	public void setNotificacoes(List<Notificacoes> notificacoes) {
-//		this.notificacoes = notificacoes;
-//	}
-	
+
 	
 }

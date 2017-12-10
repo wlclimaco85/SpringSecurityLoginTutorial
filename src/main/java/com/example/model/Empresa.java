@@ -58,9 +58,9 @@ public class Empresa{
 //	@JoinTable(name = "notificacoes", joinColumns = @JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id"))
 //	private List<Notificacoes> notificacoes;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
-	private List<Notificacoes> notificacoes;
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
+//	private List<Notificacoes> notificacoes;
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
@@ -134,14 +134,6 @@ public class Empresa{
 		this.quadras = quadras;
 	}
 
-	public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
-
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
-
 	public Empresa(int id, String nome, String nomeResponsavel, String email, String telefone, Endereco endereco,
 			Integer enderecoId, List<Quadra> quadras, List<Notificacoes> notificacoes) {
 		super();
@@ -153,7 +145,6 @@ public class Empresa{
 		this.endereco = endereco;
 		this.enderecoId = enderecoId;
 		this.quadras = quadras;
-		this.notificacoes = notificacoes;
 	}
 
 	public Empresa() {

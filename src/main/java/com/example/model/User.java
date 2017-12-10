@@ -7,12 +7,14 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -77,6 +79,15 @@ public class User{
     
     @Column(name = "enabled")
     private boolean enabled;
+    
+   // @OneToOne(fetch = FetchType.EAGER)
+  //  @JoinTable(name = "empresa", joinColumns = @JoinColumn(name = "empresa_id",  unique = false, insertable = false, updatable = false))
+  //  @OneToOne(optional = true)
+   // @JoinColumn(name = "empresa_id", referencedColumnName = "empresa_id", insertable = false, updatable = false)
+   // private Empresa empresa;
+
+    @Column(name = "empresa_id")
+    private Integer empresaId;
     
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -272,6 +283,15 @@ public class User{
 
 	public User() {
 		super();
+	}
+
+
+	public Integer getEmpresaId() {
+		return empresaId;
+	}
+
+	public void setEmpresaId(Integer empresaId) {
+		this.empresaId = empresaId;
 	}
 	
 	

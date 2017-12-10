@@ -126,10 +126,14 @@ public class LoginController extends BaseController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/registration", method = RequestMethod.POST , produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody APIResponse submitJob(@RequestBody String userString) throws Exception {
+	public @ResponseBody APIResponse submitJob(@RequestBody String userString, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		ObjectMapper mapper = new ObjectMapper();
 		UserDTO user = mapper.readValue(userString, UserDTO.class);
+		Validate.isTrue(StringUtils.isNotBlank(user.getEmail()), "Email is blank");
+		Validate.isTrue(StringUtils.isNotBlank(user.getPassword()), "Encrypted password is blank");
+		String password = decryptPassword(user);
 
 		User userExists = userService.findUserByEmail(user.getEmail());
 		if (userExists != null) {
@@ -138,8 +142,17 @@ public class LoginController extends BaseController {
 		User users = new User(user.getEmail(), user.getPassword(), user.getName(), user.getLastName(), 1, "ADMIN",
 				true);
 		userService.saveUser(users);
+		
+		HashMap<String, Object> authResp = new HashMap<>();
+		//if (userService.isValidPass(users, password)) {
+		//	LOG.info("User authenticated: " + user.getEmail());
+		//	userService.loginUser(users, request);
+			createAuthResponse(users, authResp);
+		//} else {
+		//	throw new AuthenticationFailedException("Invalid username/password combination");
+		//}
 
-		return APIResponse.toOkResponse(users);
+		return APIResponse.toOkResponse(authResp);
 	}
 
 	@RequestMapping(value = "/logins", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
