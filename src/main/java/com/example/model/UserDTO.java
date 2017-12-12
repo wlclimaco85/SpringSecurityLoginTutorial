@@ -14,6 +14,7 @@ public class UserDTO {
 	private String name;
 	private String lastName;
 	private int active;
+	private int isDono;
 	private Set<Role> roles;
 	private String iv;
 	private String salt;
@@ -180,6 +181,14 @@ public class UserDTO {
 
 	public void setEncryptedPassword(String encryptedPassword) {
 		this.encryptedPassword = encryptedPassword;
+	}
+
+	public int getIsDono() {
+		return isDono;
+	}
+
+	public void setIsDono(int isDono) {
+		this.isDono = isDono;
 	}
 
 	public UserDTO() {

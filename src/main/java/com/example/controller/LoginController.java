@@ -139,7 +139,12 @@ public class LoginController extends BaseController {
 		if (userExists != null) {
 			return null;
 		}
-		User users = new User(user.getEmail(), password, user.getName(), user.getLastName(), 1, "ADMIN",
+		String role = "ADMIN";
+		if(user.getIsDono() == 1)
+		{
+			role = "EMPRESA";
+		}		
+		User users = new User(user.getEmail(), password, user.getName(), user.getLastName(), 1, role,
 				true);
 		userService.saveUser(users);
 		
