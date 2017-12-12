@@ -5,14 +5,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -57,12 +55,12 @@ public class Jogo{
 //	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 //	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id",  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> usersJogo;
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
+//	private List<User> usersJogo;
 	
-//	@Column(name = "user_id")
-//	private int user_id;
+	@Column(name = "user_id")
+	private Integer user_id;
 	
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JoinTable(name = "user_jogos",  joinColumns = {
@@ -160,11 +158,17 @@ public class Jogo{
 		this.quadraId = quadraId;
 	}
 
-	public List<User> getUsersJogo() {
-		return usersJogo;
+//	public List<User> getUsersJogo() {
+//		return usersJogo;
+//	}
+//	public void setUsersJogo(List<User> usersJogo) {
+//		this.usersJogo = usersJogo;
+//	}
+	public Integer getUser_id() {
+		return user_id;
 	}
-	public void setUsersJogo(List<User> usersJogo) {
-		this.usersJogo = usersJogo;
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
 	}
 
 	
