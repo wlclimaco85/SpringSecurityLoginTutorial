@@ -139,7 +139,7 @@ public class LoginController extends BaseController {
 		if (userExists != null) {
 			return null;
 		}
-		User users = new User(user.getEmail(), user.getPassword(), user.getName(), user.getLastName(), 1, "ADMIN",
+		User users = new User(user.getEmail(), password, user.getName(), user.getLastName(), 1, "ADMIN",
 				true);
 		userService.saveUser(users);
 		
@@ -177,10 +177,10 @@ public class LoginController extends BaseController {
 			IllegalBlockSizeException, UnsupportedEncodingException, AuthenticationFailedException {
 		//
 
-		UserDTO userDTO = new UserDTO(email, password, iv, salt, keySize, iterations);
+		UserDTO userDTO = new UserDTO(email, password, iv, salt, keySize, iterations,encryptedPassword);
 		// UserDTO userDTO = new UserDTO();
 		Validate.isTrue(StringUtils.isNotBlank(userDTO.getEmail()), "Email is blank");
-		Validate.isTrue(StringUtils.isNotBlank(userDTO.getPassword()), "Encrypted password is blank");
+		Validate.isTrue(StringUtils.isNotBlank(userDTO.getEncryptedPassword()), "Encrypted password is blank");
 		String passwords = decryptPassword(userDTO);
 
 		LOG.info("Looking for user by email: " + userDTO.getEmail());
@@ -213,7 +213,7 @@ public class LoginController extends BaseController {
 		SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
 		cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(hex(iv)));
-		byte[] decrypted = cipher.doFinal(base64(userDTO.getPassword()));
+		byte[] decrypted = cipher.doFinal(base64(userDTO.getEncryptedPassword()));
 
 		return new String(decrypted, "UTF-8");
 	}

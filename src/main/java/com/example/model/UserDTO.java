@@ -193,7 +193,7 @@ public class UserDTO {
 	}
 
 	public UserDTO(String email, String password, String iv, String salt, int keySize,
-			int iterations) {
+			int iterations,String encryptedPassword) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -201,6 +201,7 @@ public class UserDTO {
 		this.salt = salt;
 		this.keySize = keySize;
 		this.iterations = iterations;
+		this.encryptedPassword = encryptedPassword;
 	}
     
 }
