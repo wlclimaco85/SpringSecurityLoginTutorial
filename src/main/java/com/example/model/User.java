@@ -248,14 +248,6 @@ public class User{
 		this.id = id;
 	}
 
-//	public List<Notificacoes> getNotificacoes() {
-//		return notificacoes;
-//	}
-//
-//	public void setNotificacoes(List<Notificacoes> notificacoes) {
-//		this.notificacoes = notificacoes;
-//	}
-
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
