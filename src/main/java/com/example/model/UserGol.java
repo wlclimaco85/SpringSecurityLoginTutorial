@@ -16,7 +16,7 @@ public class UserGol{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_gols_id")
-	private int id;
+	private Integer id;
 	
 	@Column(name = "data")
 	private Date data;
@@ -26,6 +26,19 @@ public class UserGol{
 	
 	@Column(name = "user_id")
 	private Integer userId;
+
+	
+	
+	public UserGol() {
+		super();
+	}
+
+	public UserGol(Date data, Integer string, Integer userId) {
+		super();
+		this.data = data;
+		this.quantGol = string;
+		this.userId = userId;
+	}
 
 	public int getId() {
 		return id;

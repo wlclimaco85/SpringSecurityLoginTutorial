@@ -16,7 +16,7 @@ public class UserNota{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_nota_id")
-	private int id;
+	private Integer id;
 	
 	@Column(name = "data")
 	private Date data;
@@ -26,6 +26,15 @@ public class UserNota{
 	
 	@Column(name = "user_id")
 	private Integer userId;
+	
+	
+
+	public UserNota(Date data, String nota, Integer userId) {
+		super();
+		this.data = data;
+		this.nota = nota;
+		this.userId = userId;
+	}
 
 	public int getId() {
 		return id;

@@ -19,7 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.framework.api.APIResponse;
 import com.example.model.Jogo;
+import com.example.model.JogoPorData;
 import com.example.model.Notificacoes;
+import com.example.model.User;
+import com.example.model.Jogo.Dias;
 import com.example.model.Notificacoes.NotificacoesStatus;
 import com.example.service.JogoService;
 import com.example.service.NotificacoesService;
@@ -77,6 +80,31 @@ public class JogoController {
 		authResp.put("token", token);
 		authResp.put("user", user);
 		authResp.put("Error", erros);
+
+		return APIResponse.toOkResponse(authResp);
+	}
+	
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/jogo/createNovo", method = RequestMethod.POST)
+	public @ResponseBody APIResponse createNovo(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Jogo user = mapper.readValue(users, Jogo.class);
+		
+		List<Jogo> jogos = jogoService.findAllJogo();
+		List<JogoPorData> jogosData = new ArrayList<JogoPorData>();
+		for (Jogo jogo : jogos) {
+			jogosData.add(new JogoPorData(new Date(), jogo.getUsersJogo(), jogo.getQuadraId(),
+					jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia()));
+		}
+		jogoService.saveJogoPorData(jogosData);
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", "");
 
 		return APIResponse.toOkResponse(authResp);
 	}

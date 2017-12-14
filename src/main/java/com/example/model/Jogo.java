@@ -55,9 +55,9 @@ public class Jogo{
 //	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 //	
 	
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
-//	private List<User> usersJogo;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
+	private List<User> usersJogo;
 	
 	@Column(name = "user_id")
 	private Integer user_id;
@@ -80,7 +80,7 @@ public class Jogo{
 	private Confirmacao confirmacao;
 	
 	@Column(name = "quadra_id")
-	private int quadraId;
+	private Integer quadraId;
 	
 	@Column(name = "horaInicial")
 	private String horaInicial;
@@ -151,19 +151,19 @@ public class Jogo{
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	public int getQuadraId() {
+	public Integer getQuadraId() {
 		return quadraId;
 	}
-	public void setQuadraId(int quadraId) {
+	public void setQuadraId(Integer quadraId) {
 		this.quadraId = quadraId;
 	}
 
-//	public List<User> getUsersJogo() {
-//		return usersJogo;
-//	}
-//	public void setUsersJogo(List<User> usersJogo) {
-//		this.usersJogo = usersJogo;
-//	}
+	public List<User> getUsersJogo() {
+		return usersJogo;
+	}
+	public void setUsersJogo(List<User> usersJogo) {
+		this.usersJogo = usersJogo;
+	}
 	public Integer getUser_id() {
 		return user_id;
 	}

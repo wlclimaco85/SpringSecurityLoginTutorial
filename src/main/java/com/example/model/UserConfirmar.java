@@ -15,7 +15,7 @@ public class UserConfirmar{
 
 	 
 	 public enum Status {
-	       DISPONIVEL, ACONFIRMAR, OCUPADO, INDISPONIVEL, CONFIRMAR, DESMARCAR
+	       CONFIRMADO, ACONFIRMAR, NAOVO, TALVEZ
 	    }
 	 
 	@Id
@@ -31,6 +31,19 @@ public class UserConfirmar{
 	
 	@Column(name = "user_id")
 	private Integer userId;
+	
+	
+
+	public UserConfirmar() {
+		super();
+	}
+
+	public UserConfirmar(Date data, Status status, Integer userId) {
+		super();
+		this.data = data;
+		this.status = status;
+		this.userId = userId;
+	}
 
 	public int getId() {
 		return id;

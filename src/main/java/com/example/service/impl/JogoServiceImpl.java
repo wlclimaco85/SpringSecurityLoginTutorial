@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.model.Empresa;
 import com.example.model.Jogo;
+import com.example.model.JogoPorData;
 import com.example.repository.JogoRepository;
 import com.example.service.JogoService;
 
@@ -47,9 +48,15 @@ public class JogoServiceImpl implements JogoService{
 		jogoRepository.save(jogos);
 	}
 	
+	
 	@Override
 	public void saveUpdateJogo(Jogo jogos) {
 		jogoRepository.save(jogos);
+	}
+	@Override
+	public void saveJogoPorData(List<JogoPorData> jogos) {
+		jogoRepository.save(jogos);
+		
 	}
 	
 

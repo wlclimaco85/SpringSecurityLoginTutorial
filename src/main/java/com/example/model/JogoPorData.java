@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.example.model.Jogo.Dias;
+import com.example.model.UserConfirmar.Status;
 
 @Entity
 @Table(name = "jogoPorData")
@@ -23,14 +25,14 @@ public class JogoPorData{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "jogoPorData_id")
-	private int id;
+	private Integer id;
 	
 	@Column(name = "Data")
 	private Date data;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "User_confirmar", joinColumns = @JoinColumn(name = "jogo_id"))
-	private List<User> users;
+	private List<UserConfirmar> users;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_nota", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -52,6 +54,30 @@ public class JogoPorData{
 	@Column(name = "dia")
 	private Dias dia;
 	
+	
+	
+	
+	public JogoPorData(Date data, List<User> users, int quadraId,
+			String horaInicial, String horaFinal, Dias dia) {
+		super();
+		
+		this.data = data;
+		List<UserNota> usersNotas = new ArrayList<UserNota>();
+		List<UserGol> userGols = new ArrayList<UserGol>();
+		List<UserConfirmar> userConfirmars = new ArrayList<UserConfirmar>();
+		for (User userList : users) {
+			usersNotas.add(new UserNota(data,"0", userList.getId()));
+			userGols.add(new UserGol(data,0, userList.getId()));
+			userConfirmars.add(new UserConfirmar(data,Status.ACONFIRMAR, userList.getId()));
+		}
+		this.usersNota = usersNotas;
+		this.usersGol = userGols;
+		this.users = userConfirmars;
+		this.quadraId = quadraId;
+		this.horaInicial = horaInicial;
+		this.horaFinal = horaFinal;
+		this.dia = dia;
+	}
 	public int getId() {
 		return id;
 	}
@@ -64,11 +90,15 @@ public class JogoPorData{
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public List<User> getUsers() {
+
+	public List<UserConfirmar> getUsers() {
 		return users;
 	}
-	public void setUsers(List<User> users) {
+	public void setUsers(List<UserConfirmar> users) {
 		this.users = users;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public List<UserNota> getUsersNota() {
 		return usersNota;
