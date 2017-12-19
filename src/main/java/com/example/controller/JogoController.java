@@ -23,6 +23,7 @@ import com.example.model.JogoPorData;
 import com.example.model.Notificacoes;
 import com.example.model.User;
 import com.example.model.Jogo.Dias;
+import com.example.model.Jogo.Status;
 import com.example.model.Notificacoes.NotificacoesStatus;
 import com.example.service.JogoService;
 import com.example.service.NotificacoesService;
@@ -95,8 +96,11 @@ public class JogoController {
 		List<Jogo> jogos = jogoService.findAllJogo();
 		List<JogoPorData> jogosData = new ArrayList<JogoPorData>();
 		for (Jogo jogo : jogos) {
-			jogosData.add(new JogoPorData(new Date(), jogo.getUsersJogo(), jogo.getQuadraId(),
+			if(jogo.getStatus().equals(Status.INDISPONIVEL))
+			{
+				jogosData.add(new JogoPorData(new Date(), jogo.getUsersJogo(), jogo.getQuadraId(),
 					jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia()));
+			}
 		}
 		jogoService.saveJogoPorData(jogosData);
 		HashMap<String, Object> authResp = new HashMap<>();

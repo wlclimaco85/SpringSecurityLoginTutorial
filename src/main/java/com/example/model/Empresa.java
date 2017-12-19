@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -43,13 +42,17 @@ public class Empresa{
 	@NotEmpty(message = "*Please provide your last name")
 	private String telefone;
 
+//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+//    @JoinColumn(name = "endereco_id", insertable = false, updatable = false, nullable = false)
+//    private Endereco endereco;
+	
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "endereco_id", unique = false, nullable = false, updatable = false)
     private Endereco endereco;
 
     @Column(name = "endereco_id", insertable = false, updatable = false, nullable = false)
     private Integer enderecoId;
-	
+    
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "empresa_quadra", joinColumns = @JoinColumn(name="empresa_id"), inverseJoinColumns = @JoinColumn(name = "quadra_id"))
 	private List<Quadra> quadras;

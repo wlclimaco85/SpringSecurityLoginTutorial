@@ -48,19 +48,19 @@ public class Endereco{
 	@Column(name = "cidade")
 	private String cidade;
 	
-//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-//    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)	
-//	private Estado estado;
-//	
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "estado_id",insertable = false, unique = false, nullable = false, updatable = false)	
+	private Estado estado;
+	
 //	@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="estado_id")
+//	@JoinColumn(name="estado_id",insertable = false, unique = false, nullable = false, updatable = false)
 //	private Estado estado;
 	
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "estado_id", unique = false, nullable = false, updatable = false)
-	private Estado estado;
+//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+  //  @JoinColumn(name = "estado_id",insertable = false, unique = false, nullable = false, updatable = false)
+//	private Estado estado;
 
-    @Column(name = "estado_id", insertable = false, updatable = false, nullable = false)
+    @Column(name = "estado_id")
     private Integer estadoId;
 	
 	@Column(name = "longi")
