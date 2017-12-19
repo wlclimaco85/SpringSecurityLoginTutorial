@@ -32,17 +32,19 @@ public class UserConfirmar{
 	@Column(name = "user_id")
 	private Integer userId;
 	
-	
+	@Column(name = "jogo_id")
+	private Integer jogoId;
 
 	public UserConfirmar() {
 		super();
 	}
 
-	public UserConfirmar(Date data, Status status, Integer userId) {
+	public UserConfirmar(Date data, Status status, Integer userId, Integer jogoId) {
 		super();
 		this.data = data;
 		this.status = status;
 		this.userId = userId;
+		this.jogoId = jogoId;
 	}
 
 	public int getId() {
@@ -75,6 +77,14 @@ public class UserConfirmar{
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Integer getJogoId() {
+		return jogoId;
+	}
+
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
 	}
 	
 	

@@ -30,16 +30,25 @@ public class JogoPorData{
 	@Column(name = "Data")
 	private Date data;
 	
+	@Column(name = "jogo_id")
+	private Integer jogoId;
+	
+	@Column(name = "user_id")
+	private Integer userId;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "User_confirmar", joinColumns = @JoinColumn(name = "jogo_id"))
+	@JoinTable(name = "user_confirmacao", joinColumns = @JoinColumn(name = "user_id" ,insertable = false,unique = false, nullable = false, updatable = false))
+	//@JoinTable(name = "User_confirmar", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "jogoPorData_id"))
 	private List<UserConfirmar> users;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_nota", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "user_nota", joinColumns = @JoinColumn(name = "user_id" ,insertable = false,unique = false, nullable = false, updatable = false))
+	//@JoinTable(name = "user_nota", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "jogoPorData_id"))
 	private List<UserNota> usersNota;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_gols", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "user_gols", joinColumns = @JoinColumn(name = "user_id" ,insertable = false,unique = false, nullable = false, updatable = false))
+	//@JoinTable(name = "user_gols", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "jogoPorData_id"))
 	private List<UserGol> usersGol;
 	
 	@Column(name = "quadra_id")
@@ -58,7 +67,7 @@ public class JogoPorData{
 	
 	
 	public JogoPorData(Date data, List<User> users, int quadraId,
-			String horaInicial, String horaFinal, Dias dia) {
+			String horaInicial, String horaFinal, Dias dia, Integer jogoId, Integer userId) {
 		super();
 		
 		this.data = data;
@@ -66,30 +75,20 @@ public class JogoPorData{
 		List<UserGol> userGols = new ArrayList<UserGol>();
 		List<UserConfirmar> userConfirmars = new ArrayList<UserConfirmar>();
 		for (User userList : users) {
-			usersNotas.add(new UserNota(data,"0", userList.getId()));
-			userGols.add(new UserGol(data,0, userList.getId()));
-			userConfirmars.add(new UserConfirmar(data,Status.ACONFIRMAR, userList.getId()));
+			usersNotas.add(new UserNota(data,"0", userList.getId(),jogoId));
+			userGols.add(new UserGol(data,0, userList.getId(),jogoId));
+			userConfirmars.add(new UserConfirmar(data,Status.ACONFIRMAR, userList.getId(), jogoId));
 		}
-		this.usersNota = usersNotas;
-		this.usersGol = userGols;
-		this.users = userConfirmars;
-		this.quadraId = quadraId;
-		this.horaInicial = horaInicial;
-		this.horaFinal = horaFinal;
-		this.dia = dia;
+		this.usersNota		 = usersNotas;
+		this.usersGol		 = userGols;
+		this.users			 = userConfirmars;
+		this.quadraId		 = quadraId;
+		this.horaInicial	 = horaInicial;
+		this.horaFinal		 = horaFinal;
+		this.dia			 = dia;
+		this.userId			 = userId;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public Date getData() {
-		return data;
-	}
-	public void setData(Date data) {
-		this.data = data;
-	}
+	
 
 	public List<UserConfirmar> getUsers() {
 		return users;
@@ -136,5 +135,37 @@ public class JogoPorData{
 	public void setDia(Dias dia) {
 		this.dia = dia;
 	}
+	public Integer getJogoId() {
+		return jogoId;
+	}
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public Date getData() {
+		return data;
+	}
+
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
+	
 		
 }

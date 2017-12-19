@@ -96,10 +96,11 @@ public class JogoController {
 		List<Jogo> jogos = jogoService.findAllJogo();
 		List<JogoPorData> jogosData = new ArrayList<JogoPorData>();
 		for (Jogo jogo : jogos) {
+			System.out.println(jogo.getStatus());
 			if(jogo.getStatus().equals(Status.INDISPONIVEL))
 			{
 				jogosData.add(new JogoPorData(new Date(), jogo.getUsersJogo(), jogo.getQuadraId(),
-					jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia()));
+					jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia(),jogo.getId(),jogo.getUser_id()));
 			}
 		}
 		jogoService.saveJogoPorData(jogosData);

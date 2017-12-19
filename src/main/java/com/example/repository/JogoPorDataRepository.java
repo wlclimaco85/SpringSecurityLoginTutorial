@@ -3,10 +3,10 @@ package com.example.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.model.Jogo;
+import com.example.model.JogoPorData;
 
-@Repository("jogoRepository")
-public interface JogoRepository extends JpaRepository<Jogo, Long> {
+@Repository("jogoPorDataRepository")
+public interface JogoPorDataRepository extends JpaRepository<JogoPorData, Long> {
 
 	//void save(List<JogoPorData> jogos);
 	

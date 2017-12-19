@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.model.Empresa;
 import com.example.model.Jogo;
 import com.example.model.JogoPorData;
+import com.example.repository.JogoPorDataRepository;
 import com.example.repository.JogoRepository;
 import com.example.service.JogoService;
 
@@ -16,6 +16,9 @@ public class JogoServiceImpl implements JogoService{
 
 	@Autowired
 	private JogoRepository jogoRepository;
+	
+	@Autowired
+	private JogoPorDataRepository jogoPorDataRepository;
 
 
 	@Override
@@ -55,7 +58,7 @@ public class JogoServiceImpl implements JogoService{
 	}
 	@Override
 	public void saveJogoPorData(List<JogoPorData> jogos) {
-		jogoRepository.save(jogos);
+		jogoPorDataRepository.save(jogos);
 		
 	}
 	

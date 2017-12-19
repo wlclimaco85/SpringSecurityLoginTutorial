@@ -27,13 +27,15 @@ public class UserNota{
 	@Column(name = "user_id")
 	private Integer userId;
 	
-	
+	@Column(name = "jogo_id")
+	private Integer jogoId;
 
-	public UserNota(Date data, String nota, Integer userId) {
+	public UserNota(Date data, String nota, Integer userId, Integer jogoId) {
 		super();
 		this.data = data;
 		this.nota = nota;
 		this.userId = userId;
+		this.jogoId = jogoId;
 	}
 
 	public int getId() {
@@ -66,6 +68,18 @@ public class UserNota{
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public Integer getJogoId() {
+		return jogoId;
+	}
+
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }
