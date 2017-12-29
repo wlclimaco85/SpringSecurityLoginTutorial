@@ -140,6 +140,7 @@ public class JogoPorData{
 	public void setDia(Dias dia) {
 		this.dia = dia;
 	}
+	
 
 	public JogoPorData(Date data, Integer jogoId, Integer userId, StatusJogoPorData status, String nota, Integer qntGols,
 			int quadraId, String horaInicial, String horaFinal, Dias dia) {
