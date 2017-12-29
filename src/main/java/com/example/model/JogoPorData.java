@@ -28,9 +28,6 @@ public class JogoPorData{
 	@Column(name = "jogo_id")
 	private Integer jogoId;
 	
-	@Column(name = "user_id")
-	private Integer userId;
-	
 	@Column(name = "status")
 	private StatusJogoPorData status;
 	
@@ -40,18 +37,6 @@ public class JogoPorData{
 	@Column(name = "qnt_gols")
 	private Integer qntGols;
 	
-	
-	@Column(name = "quadra_id")
-	private int quadraId;
-	
-	@Column(name = "horaInicial")
-	private String horaInicial;
-	
-	@Column(name = "horaFinal")
-	private String horaFinal;
-	
-	@Column(name = "dia")
-	private Dias dia;
 
 	public Integer getId() {
 		return id;
@@ -75,14 +60,6 @@ public class JogoPorData{
 
 	public void setJogoId(Integer jogoId) {
 		this.jogoId = jogoId;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 
 	public StatusJogoPorData getStatus() {
@@ -109,37 +86,6 @@ public class JogoPorData{
 		this.qntGols = qntGols;
 	}
 
-	public int getQuadraId() {
-		return quadraId;
-	}
-
-	public void setQuadraId(int quadraId) {
-		this.quadraId = quadraId;
-	}
-
-	public String getHoraInicial() {
-		return horaInicial;
-	}
-
-	public void setHoraInicial(String horaInicial) {
-		this.horaInicial = horaInicial;
-	}
-
-	public String getHoraFinal() {
-		return horaFinal;
-	}
-
-	public void setHoraFinal(String horaFinal) {
-		this.horaFinal = horaFinal;
-	}
-
-	public Dias getDia() {
-		return dia;
-	}
-
-	public void setDia(Dias dia) {
-		this.dia = dia;
-	}
 	
 
 	public JogoPorData(Date data, Integer jogoId, Integer userId, StatusJogoPorData status, String nota, Integer qntGols,
@@ -147,14 +93,10 @@ public class JogoPorData{
 		super();
 		this.data = data;
 		this.jogoId = jogoId;
-		this.userId = userId;
 		this.status = status;
 		this.nota = nota;
 		this.qntGols = qntGols;
-		this.quadraId = quadraId;
-		this.horaInicial = horaInicial;
-		this.horaFinal = horaFinal;
-		this.dia = dia;
+
 	}
 
 	public JogoPorData() {

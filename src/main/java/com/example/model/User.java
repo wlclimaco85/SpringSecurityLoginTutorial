@@ -63,7 +63,7 @@ public class User{
     @JoinColumn(name= "user_id", insertable = false,unique = false, nullable = false, updatable = false)
 //	@OneToMany
 	//@JoinTable(name = "jogo_por_data", joinColumns = @JoinColumn(name = "user_id",insertable = false,unique = false, nullable = false, updatable = false))
-	private List<JogoPorData> jogos;
+	private List<Jogo> jogos;
 	
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name="para_user_id", referencedColumnName="user_id")
@@ -293,11 +293,11 @@ public class User{
 		this.empresaId = empresaId;
 	}
 
-	public List<JogoPorData> getJogos() {
+	public List<Jogo> getJogos() {
 		return jogos;
 	}
 
-	public void setJogos(List<JogoPorData> jogos) {
+	public void setJogos(List<Jogo> jogos) {
 		this.jogos = jogos;
 	}
 
