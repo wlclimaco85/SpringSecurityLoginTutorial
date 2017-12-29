@@ -2,17 +2,20 @@ package com.example.model;
 
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -55,6 +58,12 @@ public class User{
 	private String iv;
 	@Column(name = "salt")
 	private String salt;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name= "user_id", insertable = false,unique = false, nullable = false, updatable = false)
+//	@OneToMany
+	//@JoinTable(name = "jogo_por_data", joinColumns = @JoinColumn(name = "user_id",insertable = false,unique = false, nullable = false, updatable = false))
+	private List<JogoPorData> jogos;
 	
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name="para_user_id", referencedColumnName="user_id")
@@ -282,6 +291,18 @@ public class User{
 
 	public void setEmpresaId(Integer empresaId) {
 		this.empresaId = empresaId;
+	}
+
+	public List<JogoPorData> getJogos() {
+		return jogos;
+	}
+
+	public void setJogos(List<JogoPorData> jogos) {
+		this.jogos = jogos;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	

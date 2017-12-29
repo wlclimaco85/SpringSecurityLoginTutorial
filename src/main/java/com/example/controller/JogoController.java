@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.framework.api.APIResponse;
 import com.example.model.Jogo;
 import com.example.model.JogoPorData;
+import com.example.model.JogoPorData.StatusJogoPorData;
 import com.example.model.Notificacoes;
 import com.example.model.User;
 import com.example.model.Jogo.Dias;
@@ -99,8 +100,9 @@ public class JogoController {
 			System.out.println(jogo.getStatus());
 			if(jogo.getStatus().equals(Status.INDISPONIVEL))
 			{
-				jogosData.add(new JogoPorData(new Date(), jogo.getUsersJogo(), jogo.getQuadraId(),
-					jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia(),jogo.getId(),jogo.getUser_id()));
+				
+				jogosData.add(new JogoPorData(new Date(), jogo.getId(), user.getUser_id(), StatusJogoPorData.ACONFIRMAR, "0", 0,
+						jogo.getQuadraId(), jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia()));
 			}
 		}
 		jogoService.saveJogoPorData(jogosData);

@@ -1,27 +1,22 @@
 package com.example.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.example.model.Jogo.Dias;
-import com.example.model.UserConfirmar.Status;
 
 @Entity
-@Table(name = "jogoPorData")
+@Table(name = "jogo_por_data")
 public class JogoPorData{
-
+	 public enum StatusJogoPorData {
+	       CONFIRMADO, ACONFIRMAR, NAOVO, TALVEZ
+	    }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "jogoPorData_id")
@@ -36,20 +31,15 @@ public class JogoPorData{
 	@Column(name = "user_id")
 	private Integer userId;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_confirmacao", joinColumns = @JoinColumn(name = "user_id" ,insertable = false,unique = false, nullable = false, updatable = false))
-	//@JoinTable(name = "User_confirmar", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "jogoPorData_id"))
-	private List<UserConfirmar> users;
+	@Column(name = "status")
+	private StatusJogoPorData status;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_nota", joinColumns = @JoinColumn(name = "user_id" ,insertable = false,unique = false, nullable = false, updatable = false))
-	//@JoinTable(name = "user_nota", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "jogoPorData_id"))
-	private List<UserNota> usersNota;
+	@Column(name = "nota")
+	private String nota;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_gols", joinColumns = @JoinColumn(name = "user_id" ,insertable = false,unique = false, nullable = false, updatable = false))
-	//@JoinTable(name = "user_gols", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "jogoPorData_id"))
-	private List<UserGol> usersGol;
+	@Column(name = "qnt_gols")
+	private Integer qntGols;
+	
 	
 	@Column(name = "quadra_id")
 	private int quadraId;
@@ -62,108 +52,112 @@ public class JogoPorData{
 	
 	@Column(name = "dia")
 	private Dias dia;
-	
-	
-	
-	
-	public JogoPorData(Date data, List<User> users, int quadraId,
-			String horaInicial, String horaFinal, Dias dia, Integer jogoId, Integer userId) {
-		super();
-		
-		this.data = data;
-		List<UserNota> usersNotas = new ArrayList<UserNota>();
-		List<UserGol> userGols = new ArrayList<UserGol>();
-		List<UserConfirmar> userConfirmars = new ArrayList<UserConfirmar>();
-		for (User userList : users) {
-			usersNotas.add(new UserNota(data,"0", userList.getId(),jogoId));
-			userGols.add(new UserGol(data,0, userList.getId(),jogoId));
-			userConfirmars.add(new UserConfirmar(data,Status.ACONFIRMAR, userList.getId(), jogoId));
-		}
-		this.usersNota		 = usersNotas;
-		this.usersGol		 = userGols;
-		this.users			 = userConfirmars;
-		this.quadraId		 = quadraId;
-		this.horaInicial	 = horaInicial;
-		this.horaFinal		 = horaFinal;
-		this.dia			 = dia;
-		this.userId			 = userId;
-	}
-	
-
-	public List<UserConfirmar> getUsers() {
-		return users;
-	}
-	public void setUsers(List<UserConfirmar> users) {
-		this.users = users;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public List<UserNota> getUsersNota() {
-		return usersNota;
-	}
-	public void setUsersNota(List<UserNota> usersNota) {
-		this.usersNota = usersNota;
-	}
-	public List<UserGol> getUsersGol() {
-		return usersGol;
-	}
-	public void setUsersGol(List<UserGol> usersGol) {
-		this.usersGol = usersGol;
-	}
-	public int getQuadraId() {
-		return quadraId;
-	}
-	public void setQuadraId(int quadraId) {
-		this.quadraId = quadraId;
-	}
-	public String getHoraInicial() {
-		return horaInicial;
-	}
-	public void setHoraInicial(String horaInicial) {
-		this.horaInicial = horaInicial;
-	}
-	public String getHoraFinal() {
-		return horaFinal;
-	}
-	public void setHoraFinal(String horaFinal) {
-		this.horaFinal = horaFinal;
-	}
-	public Dias getDia() {
-		return dia;
-	}
-	public void setDia(Dias dia) {
-		this.dia = dia;
-	}
-	public Integer getJogoId() {
-		return jogoId;
-	}
-	public void setJogoId(Integer jogoId) {
-		this.jogoId = jogoId;
-	}
 
 	public Integer getId() {
 		return id;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public Date getData() {
 		return data;
 	}
 
-
 	public void setData(Date data) {
 		this.data = data;
 	}
 
+	public Integer getJogoId() {
+		return jogoId;
+	}
+
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
+	}
 
 	public Integer getUserId() {
 		return userId;
 	}
 
-
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public StatusJogoPorData getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusJogoPorData status) {
+		this.status = status;
+	}
+
+	public String getNota() {
+		return nota;
+	}
+
+	public void setNota(String nota) {
+		this.nota = nota;
+	}
+
+	public Integer getQntGols() {
+		return qntGols;
+	}
+
+	public void setQntGols(Integer qntGols) {
+		this.qntGols = qntGols;
+	}
+
+	public int getQuadraId() {
+		return quadraId;
+	}
+
+	public void setQuadraId(int quadraId) {
+		this.quadraId = quadraId;
+	}
+
+	public String getHoraInicial() {
+		return horaInicial;
+	}
+
+	public void setHoraInicial(String horaInicial) {
+		this.horaInicial = horaInicial;
+	}
+
+	public String getHoraFinal() {
+		return horaFinal;
+	}
+
+	public void setHoraFinal(String horaFinal) {
+		this.horaFinal = horaFinal;
+	}
+
+	public Dias getDia() {
+		return dia;
+	}
+
+	public void setDia(Dias dia) {
+		this.dia = dia;
+	}
+
+	public JogoPorData(Date data, Integer jogoId, Integer userId, StatusJogoPorData status, String nota, Integer qntGols,
+			int quadraId, String horaInicial, String horaFinal, Dias dia) {
+		super();
+		this.data = data;
+		this.jogoId = jogoId;
+		this.userId = userId;
+		this.status = status;
+		this.nota = nota;
+		this.qntGols = qntGols;
+		this.quadraId = quadraId;
+		this.horaInicial = horaInicial;
+		this.horaFinal = horaFinal;
+		this.dia = dia;
+	}
+
+	public JogoPorData() {
+		super();
 	}
 	
 	
