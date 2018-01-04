@@ -34,7 +34,7 @@ public class Notificacoes {
 	@Column(name="status")
 	private NotificacoesStatus status;
 	
-	@Column(name="de_user_id")
+	@Column(name="user_id")
 	private int deUserId;
 	
 	@Column(name="de_empresa_id")

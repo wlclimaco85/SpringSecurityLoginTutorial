@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "jogo")
-public class Jogo{
+public class Jogo {
 	 public enum Confirmacao {
 	        SEMANAL, MENSAL, ANUAL, NUNCA
 	    }
@@ -27,7 +27,7 @@ public class Jogo{
 	    }
 	 
 	 public enum Status {
-	       DISPONIVEL, ACONFIRMAR, OCUPADO, INDISPONIVEL, CONFIRMAR, DESMARCAR, EXCLUIR
+	       DISPONIVEL, ACONFIRMAR, OCUPADO, INDISPONIVEL, CONFIRMAR, DESMARCAR, EXCLUIR, SOLICITAR
 	    }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -101,12 +101,6 @@ public class Jogo{
 	private Status status;
 	
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getNome() {
 		return nome;
 	}
@@ -181,6 +175,12 @@ public class Jogo{
 	}
 	public void setJogos(List<JogoPorData> jogos) {
 		this.jogos = jogos;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	

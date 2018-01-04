@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,14 +21,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.framework.api.APIResponse;
 import com.example.model.Jogo;
+import com.example.model.Jogo.Status;
 import com.example.model.JogoPorData;
 import com.example.model.JogoPorData.StatusJogoPorData;
 import com.example.model.Notificacoes;
-import com.example.model.User;
-import com.example.model.Jogo.Dias;
-import com.example.model.Jogo.Status;
 import com.example.model.Notificacoes.NotificacoesStatus;
+import com.example.model.User;
+import com.example.model.UserJogo2;
+import com.example.model.UserJogo2.Admin;
+import com.example.model.UserJogo2.StatusUser;
 import com.example.service.JogoService;
+import com.example.service.JogoUserService;
 import com.example.service.NotificacoesService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -40,6 +45,9 @@ public class JogoController {
 	
 	@Autowired
 	private NotificacoesService notificacoesService;
+	
+	@Autowired
+	private JogoUserService jogoUserService;
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/jogo/update", method = RequestMethod.POST)
@@ -50,26 +58,41 @@ public class JogoController {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> erros = new ArrayList<>();
 
-		jogoService.saveUpdateJogo(user);
+		
 		Notificacoes notificacoes = new Notificacoes();
 		switch (user.getStatus()) {
 		case DISPONIVEL:
+			jogoService.saveUpdateJogo(user);
+			List<UserJogo2> userJogos = new ArrayList<>();
+			userJogos.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.CONFIRMADO,Admin.SIM));
+			jogoUserService.saveUserJogo(userJogos);
 			notificacoes = new Notificacoes("DISPONIVEL", new Date(), "Titulo DISPONIVEL", NotificacoesStatus.NAOLIDO, 10, 8);
 			break;
 		case ACONFIRMAR:
+			jogoService.saveUpdateJogo(user);
 			notificacoes = new Notificacoes("ACONFIRMAR", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, 10, 8);
 			break;
 		case OCUPADO:
+			jogoService.saveUpdateJogo(user);
 			notificacoes = new Notificacoes("OCUPADO", new Date(), "Titulo OCUPADO", NotificacoesStatus.NAOLIDO, 10,8);
 			break;
 		case INDISPONIVEL:
+			jogoService.saveUpdateJogo(user);
 			notificacoes = new Notificacoes("INDISPONIVEL", new Date(), "Titulo INDISPONIVEL", NotificacoesStatus.NAOLIDO, 10,8);
 			break;
 		case CONFIRMAR:
+			jogoService.saveUpdateJogo(user);
 			notificacoes = new Notificacoes("CONFIRMAR", new Date(), "Titulo CONFIRMAR", NotificacoesStatus.NAOLIDO, 10,8);
 			break;
 		case DESMARCAR:
 			notificacoes = new Notificacoes("DESMARCAR", new Date(), "Titulo DESMARCAR", NotificacoesStatus.NAOLIDO, 10,8);
+			break;
+			
+		case SOLICITAR:
+			List<UserJogo2> userJogos1 = new ArrayList<>();
+			userJogos1.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.SOLICITADO,Admin.NAO));
+			jogoUserService.saveUserJogo(userJogos1);
+			notificacoes = new Notificacoes("SOLICITAR", new Date(), "Titulo SOLICITAR", NotificacoesStatus.NAOLIDO, 10,8);
 			break;
 
 		default:
@@ -101,7 +124,7 @@ public class JogoController {
 			if(jogo.getStatus().equals(Status.INDISPONIVEL))
 			{
 				
-				jogosData.add(new JogoPorData(new Date(), jogo.getId(), user.getUser_id(), StatusJogoPorData.ACONFIRMAR, "0", 0,
+				jogosData.add(new JogoPorData(new Date(), jogo.getId(), 8, StatusJogoPorData.ACONFIRMAR, "0", 0,
 						jogo.getQuadraId(), jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia()));
 			}
 		}
@@ -186,5 +209,17 @@ public class JogoController {
 	// authResp.put("user", user);
 	// authResp.put("Error", erros);
 	// }
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/jogo/findJogoByUser", method = RequestMethod.POST)
+	public ResponseEntity<List<Jogo>> findAllQuadraById(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(users, User.class);
+
+		List<Jogo> quadra = jogoService.findJogoByUser(user);
+
+		return new ResponseEntity<List<Jogo>>(quadra, HttpStatus.OK);
+	}
 
 }

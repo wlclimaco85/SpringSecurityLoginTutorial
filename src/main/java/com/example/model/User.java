@@ -59,15 +59,15 @@ public class User{
 	@Column(name = "salt")
 	private String salt;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name= "user_id", insertable = false,unique = false, nullable = false, updatable = false)
+	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@JoinColumn(name= "user_id", insertable = false,unique = false, nullable = false, updatable = false)
 //	@OneToMany
 	//@JoinTable(name = "jogo_por_data", joinColumns = @JoinColumn(name = "user_id",insertable = false,unique = false, nullable = false, updatable = false))
-	private List<Jogo> jogos;
+	//private List<Jogo> jogos;
 	
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinColumn(name="para_user_id", referencedColumnName="user_id")
-	//private List<Notificacoes> notificacoes;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="user_id",  insertable = false,unique = false, nullable = false, updatable = false)
+	private List<Notificacoes> notificacoes;
 	
 	private int keySize;
 	private int iterations;
@@ -293,13 +293,7 @@ public class User{
 		this.empresaId = empresaId;
 	}
 
-	public List<Jogo> getJogos() {
-		return jogos;
-	}
-
-	public void setJogos(List<Jogo> jogos) {
-		this.jogos = jogos;
-	}
+	
 
 	public void setId(Integer id) {
 		this.id = id;

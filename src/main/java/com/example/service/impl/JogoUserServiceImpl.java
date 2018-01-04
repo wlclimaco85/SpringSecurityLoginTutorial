@@ -1,0 +1,37 @@
+package com.example.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.model.UserJogo2;
+import com.example.repository.JogoUserRepository;
+import com.example.service.JogoUserService;
+
+@Service("jogoUserService")
+public class JogoUserServiceImpl implements JogoUserService{
+
+	@Autowired
+	private JogoUserRepository jogoUserRepository;
+
+	@Override
+	public void updateJogoUser(UserJogo2 empresa) {
+		jogoUserRepository.save(empresa);
+		
+	}
+
+	@Override
+	public void deleteJogoUser(UserJogo2 empresa) {
+		jogoUserRepository.delete(empresa);
+	}
+
+	@Override
+	public void saveUserJogo(List<UserJogo2> jogos) {
+		jogoUserRepository.save(jogos);
+		
+	}
+	
+		
+
+}

@@ -2,11 +2,15 @@ package com.example.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.model.Jogo.Dias;
@@ -36,6 +40,14 @@ public class JogoPorData{
 	
 	@Column(name = "qnt_gols")
 	private Integer qntGols;
+	
+
+	@Column(name = "user_id")
+	private Integer user_id;
+	
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name="jogo_id", referencedColumnName="user_id", nullable = false, insertable = false, updatable = false)
+	private Jogo jogo;
 	
 
 	public Integer getId() {
@@ -92,6 +104,7 @@ public class JogoPorData{
 			int quadraId, String horaInicial, String horaFinal, Dias dia) {
 		super();
 		this.data = data;
+		this.user_id = userId;
 		this.jogoId = jogoId;
 		this.status = status;
 		this.nota = nota;
@@ -101,6 +114,22 @@ public class JogoPorData{
 
 	public JogoPorData() {
 		super();
+	}
+
+	public Integer getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
+	}
+
+	public Jogo getJogo() {
+		return jogo;
+	}
+
+	public void setJogo(Jogo jogo) {
+		this.jogo = jogo;
 	}
 	
 	
