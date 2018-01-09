@@ -16,7 +16,7 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
 	
 //	Empresa findByEmail(String email);
 	// custom query example and return a stream
-    @Query("select c from Jogo c where c.user_id = :email")
+    @Query("SELECT p  FROM UserJogo2 u, Jogo p WHERE u.user_id=p.user_id and p.user_id= :email")
     List<Jogo> findJogoByUser(@Param("email") Integer user);
 	//List<Jogo> findJogoByUser(User user);
 }
