@@ -2,15 +2,11 @@ package com.example.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.model.Jogo.Dias;
@@ -36,7 +32,7 @@ public class JogoPorData{
 	private StatusJogoPorData status;
 	
 	@Column(name = "nota")
-	private String nota;
+	private Integer nota;
 	
 	@Column(name = "qnt_gols")
 	private Integer qntGols;
@@ -45,9 +41,9 @@ public class JogoPorData{
 	@Column(name = "user_id")
 	private Integer user_id;
 	
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	@JoinColumn(name="jogo_id", referencedColumnName="user_id", nullable = false, insertable = false, updatable = false)
-	private Jogo jogo;
+//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+//	@JoinColumn(name="jogo_id", referencedColumnName="user_id", nullable = false, insertable = false, updatable = false)
+//	private Jogo jogo;
 	
 
 	public Integer getId() {
@@ -82,11 +78,11 @@ public class JogoPorData{
 		this.status = status;
 	}
 
-	public String getNota() {
+	public Integer getNota() {
 		return nota;
 	}
 
-	public void setNota(String nota) {
+	public void setNota(Integer nota) {
 		this.nota = nota;
 	}
 
@@ -100,7 +96,7 @@ public class JogoPorData{
 
 	
 
-	public JogoPorData(Date data, Integer jogoId, Integer userId, StatusJogoPorData status, String nota, Integer qntGols,
+	public JogoPorData(Date data, Integer jogoId, Integer userId, StatusJogoPorData status, Integer nota, Integer qntGols,
 			int quadraId, String horaInicial, String horaFinal, Dias dia) {
 		super();
 		this.data = data;
@@ -113,7 +109,7 @@ public class JogoPorData{
 	}
 
 	public JogoPorData() {
-		super();
+
 	}
 
 	public Integer getUser_id() {
@@ -124,13 +120,13 @@ public class JogoPorData{
 		this.user_id = user_id;
 	}
 
-	public Jogo getJogo() {
-		return jogo;
-	}
-
-	public void setJogo(Jogo jogo) {
-		this.jogo = jogo;
-	}
+//	public Jogo getJogo() {
+//		return jogo;
+//	}
+//
+//	public void setJogo(Jogo jogo) {
+//		this.jogo = jogo;
+//	}
 	
 	
 		

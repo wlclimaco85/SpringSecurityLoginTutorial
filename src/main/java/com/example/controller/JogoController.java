@@ -124,7 +124,7 @@ public class JogoController {
 			if(jogo.getStatus().equals(Status.INDISPONIVEL))
 			{
 				
-				jogosData.add(new JogoPorData(new Date(), jogo.getId(), 8, StatusJogoPorData.ACONFIRMAR, "0", 0,
+				jogosData.add(new JogoPorData(new Date(), jogo.getId(), 8, StatusJogoPorData.ACONFIRMAR, 0, 0,
 						jogo.getQuadraId(), jogo.getHoraInicial(), jogo.getHoraFinal(), jogo.getDia()));
 			}
 		}

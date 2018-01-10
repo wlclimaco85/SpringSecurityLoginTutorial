@@ -64,8 +64,10 @@ public class Jogo {
 	@Column(name = "user_id")
 	private Integer user_id;
 	
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinTable(joinColumns = @JoinColumn(name= "jogo_id", insertable = false,unique = false, nullable = false, updatable = false))
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "jogo_por_data", joinColumns = @JoinColumn(name= "jogo_id", insertable = false,unique = false, nullable = false, updatable = false))
+	@JoinColumn(name="jogo_id", referencedColumnName="jogo_id", nullable = false, insertable = false, updatable = false)
 	private List<JogoPorData> jogos;
 	
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
