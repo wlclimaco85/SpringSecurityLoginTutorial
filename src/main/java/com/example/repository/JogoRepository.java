@@ -18,5 +18,5 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
 	// custom query example and return a stream
     @Query("SELECT p  FROM UserJogo2 u, Jogo p WHERE p.id=u.jogo_id and u.user_id= :email")
     List<Jogo> findJogoByUser(@Param("email") Integer user);
-	//List<Jogo> findJogoByUser(User user);
+
 }

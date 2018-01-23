@@ -1,6 +1,8 @@
 package com.example.model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,6 +43,8 @@ public class JogoPorData{
 	@Column(name = "user_id")
 	private Integer user_id;
 	
+
+	HashMap<Integer, StatusJogoPorData> userConfirm = new HashMap<Integer, StatusJogoPorData>();
 //	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 //	@JoinColumn(name="jogo_id", referencedColumnName="user_id", nullable = false, insertable = false, updatable = false)
 //	private Jogo jogo;
@@ -120,6 +124,14 @@ public class JogoPorData{
 		this.user_id = user_id;
 	}
 
+	public HashMap<Integer, StatusJogoPorData> getUserConfirm() {
+		return userConfirm;
+	}
+
+	public void setUserConfirm(HashMap<Integer, StatusJogoPorData> userConfirm) {
+		this.userConfirm = userConfirm;
+	}
+
 //	public Jogo getJogo() {
 //		return jogo;
 //	}
@@ -128,6 +140,6 @@ public class JogoPorData{
 //		this.jogo = jogo;
 //	}
 	
-	
+
 		
 }

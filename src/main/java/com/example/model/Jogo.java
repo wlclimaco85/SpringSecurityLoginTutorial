@@ -64,6 +64,8 @@ public class Jogo {
 	@Column(name = "user_id")
 	private Integer user_id;
 	
+	
+	
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinTable(joinColumns = @JoinColumn(name= "jogo_id", insertable = false,unique = false, nullable = false, updatable = false))
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -184,6 +186,7 @@ public class Jogo {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 
 	
 }

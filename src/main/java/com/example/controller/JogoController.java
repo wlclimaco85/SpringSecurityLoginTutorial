@@ -27,6 +27,7 @@ import com.example.model.JogoPorData.StatusJogoPorData;
 import com.example.model.Notificacoes;
 import com.example.model.Notificacoes.NotificacoesStatus;
 import com.example.model.User;
+import com.example.model.UserConfirmDTO;
 import com.example.model.UserJogo2;
 import com.example.model.UserJogo2.Admin;
 import com.example.model.UserJogo2.StatusUser;
@@ -93,6 +94,45 @@ public class JogoController {
 			userJogos1.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.SOLICITADO,Admin.NAO));
 			jogoUserService.saveUserJogo(userJogos1);
 			notificacoes = new Notificacoes("SOLICITAR", new Date(), "Titulo SOLICITAR", NotificacoesStatus.NAOLIDO, 10,8);
+			break;
+
+		default:
+			break;
+		}
+		notificacoesService.insertNotificacoes(notificacoes);
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", erros);
+
+		return APIResponse.toOkResponse(authResp);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/jogo/updateJogoPorData", method = RequestMethod.POST)
+	public @ResponseBody APIResponse updateJogoPorData(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		JogoPorData user = mapper.readValue(users, JogoPorData.class);
+		ModelAndView modelAndView = new ModelAndView();
+		List<String> erros = new ArrayList<>();
+
+		
+		Notificacoes notificacoes = new Notificacoes();
+		switch (user.getStatus()) {
+		case CONFIRMADO:
+			jogoService.saveJogoPorData(user);
+			notificacoes = new Notificacoes("CONFIRMADO", new Date(), "Titulo DISPONIVEL", NotificacoesStatus.NAOLIDO, 10, 8);
+			break;
+		case NAOVO:
+			jogoService.saveJogoPorData(user);
+			notificacoes = new Notificacoes("NAOVO", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, 10, 8);
+			break;
+		case TALVEZ:
+			jogoService.saveJogoPorData(user);
+			notificacoes = new Notificacoes("TALVEZ", new Date(), "Titulo OCUPADO", NotificacoesStatus.NAOLIDO, 10,8);
 			break;
 
 		default:
@@ -218,6 +258,17 @@ public class JogoController {
 		User user = mapper.readValue(users, User.class);
 
 		List<Jogo> quadra = jogoService.findJogoByUser(user);
+		for (Jogo jogo : quadra) {
+			HashMap<Integer, StatusJogoPorData> userConfirm = new HashMap<Integer, StatusJogoPorData>();
+			for (JogoPorData jogoPorData : jogo.getJogos()) {
+				List<JogoPorData> userConfirmDTO = jogoService.findJogoPorDataUserConfirmDTO(jogo.getId(),jogoPorData.getData());
+				for (JogoPorData jogoPorData2 : userConfirmDTO) {
+					userConfirm.put(jogoPorData2.getUser_id(), jogoPorData2.getStatus());
+				}
+				jogoPorData.setUserConfirm(userConfirm);
+				//jogo.setUserConfirm(new ArrayList<>());
+				//jogo.getUserConfirm().add(new UserConfirmDTO(userConfirmDTO));
+		}}
 
 		return new ResponseEntity<List<Jogo>>(quadra, HttpStatus.OK);
 	}
