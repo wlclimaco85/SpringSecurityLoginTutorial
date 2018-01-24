@@ -41,7 +41,7 @@ public class FileUploadTests {
         given(this.storageService.loadAll())
                 .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
 
-        this.mvc.perform(get("/")).andExpect(status().isOk())
+        this.mvc.perform(get("/upload")).andExpect(status().isOk())
                 .andExpect(model().attribute("files",
                         Matchers.contains("http://localhost/files/first.txt",
                                 "http://localhost/files/second.txt")));

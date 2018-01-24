@@ -42,12 +42,12 @@ public class FileUploadIntegrationTests {
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("file", resource);
-		ResponseEntity<String> response = this.restTemplate.postForEntity("/upload2", map,
+		ResponseEntity<String> response = this.restTemplate.postForEntity("/upload", map,
 				String.class);
 
 		assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
 		assertThat(response.getHeaders().getLocation().toString())
-				.startsWith("http://localhost:" + this.port + "/upload2");
+				.startsWith("http://localhost:" + this.port + "/upload");
 		then(storageService).should().store(any(MultipartFile.class));
 	}
 
