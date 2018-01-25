@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -144,6 +145,43 @@ public class JogoController {
 		Object token = auth.getCredentials();
 		authResp.put("token", token);
 		authResp.put("user", user);
+		authResp.put("Error", erros);
+
+		return APIResponse.toOkResponse(authResp);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/jogo/insertUserJogo", method = RequestMethod.POST)
+	public @ResponseBody APIResponse insertJogoPorData(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		UserJogo2 user = mapper.readValue(users, UserJogo2.class);
+		ModelAndView modelAndView = new ModelAndView();
+		List<String> erros = new ArrayList<>();
+
+		
+//		Notificacoes notificacoes = new Notificacoes();
+//		switch (user.getStatus_user()) {
+//		case CONFIRMADO:
+//			notificacoes = new Notificacoes("CONFIRMADO", new Date(), "Titulo DISPONIVEL", NotificacoesStatus.NAOLIDO, 10, 8);
+//			break;
+//		case SOLICITADO:
+//			notificacoes = new Notificacoes("NAOVO", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, 10, 8);
+//			break;
+//		case RECUSADO:
+//			notificacoes = new Notificacoes("TALVEZ", new Date(), "Titulo OCUPADO", NotificacoesStatus.NAOLIDO, 10,8);
+//			break;
+//
+//		default:
+//			break;
+//		}
+//		notificacoesService.insertNotificacoes(notificacoes);
+		jogoUserService.saveUserJogo(Arrays.asList(user));
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("userJogo", user);
 		authResp.put("Error", erros);
 
 		return APIResponse.toOkResponse(authResp);

@@ -84,13 +84,16 @@ public class User{
     @Column(name = "updatedAt")
     private @JsonIgnore Date updatedAt;
     
-    @Column(name = "enabled")
+    @Column(name = "enabled", columnDefinition="Boolean default true")
     private Boolean enabled;
+    
+    @Column(name = "isGoleiro", columnDefinition="Boolean default false")
+    private Boolean isGoleiro;
     
     @Column(name = "foto")
     private String foto;
     
-    @Column(name = "receberNotificacoes")
+    @Column(name = "receberNotificacoes", columnDefinition="Boolean default true")
     private Boolean receberNotificacoes;
     
    // @OneToOne(fetch = FetchType.EAGER)
@@ -336,6 +339,14 @@ public class User{
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public Boolean getIsGoleiro() {
+		return isGoleiro;
+	}
+
+	public void setIsGoleiro(Boolean isGoleiro) {
+		this.isGoleiro = isGoleiro;
 	}
 	
 	

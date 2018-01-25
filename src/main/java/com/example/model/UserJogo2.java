@@ -24,7 +24,7 @@ import com.example.framework.data.JPAEntity;
  */
 @Entity
 @Table(name = "user_jogos")
-public class UserJogo2 extends JPAEntity<Integer> {
+public class UserJogo2 {
 
 	public enum StatusUser {
 	       SOLICITADO, CONFIRMADO, RECUSADO
@@ -34,6 +34,10 @@ public class UserJogo2 extends JPAEntity<Integer> {
 	       SIM, NAO
 	    }
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private int id;
 	
     private Integer user_id;
     private Integer jogo_id;
@@ -85,6 +89,14 @@ public class UserJogo2 extends JPAEntity<Integer> {
 	}
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public UserJogo2() {
 		

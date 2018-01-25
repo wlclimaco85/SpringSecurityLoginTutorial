@@ -33,6 +33,7 @@ public class UserDTO {
     private List<Jogo> jogos;
     private List<Notificacoes> notificacoes;
     private Boolean receberNotificacoes;
+    private Boolean isGoleiro;
 
     public List<Notificacoes> getNotificacoes() {
 		return notificacoes;
@@ -256,6 +257,14 @@ public class UserDTO {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public Boolean getIsGoleiro() {
+		return isGoleiro;
+	}
+
+	public void setIsGoleiro(Boolean isGoleiro) {
+		this.isGoleiro = isGoleiro;
 	}
 
     
