@@ -85,7 +85,13 @@ public class User{
     private @JsonIgnore Date updatedAt;
     
     @Column(name = "enabled")
-    private boolean enabled;
+    private Boolean enabled;
+    
+    @Column(name = "foto")
+    private String foto;
+    
+    @Column(name = "receberNotificacoes")
+    private Boolean receberNotificacoes;
     
    // @OneToOne(fetch = FetchType.EAGER)
   //  @JoinTable(name = "empresa", joinColumns = @JoinColumn(name = "empresa_id",  unique = false, insertable = false, updatable = false))
@@ -95,6 +101,7 @@ public class User{
 
     @Column(name = "empresa_id")
     private Integer empresaId;
+    
     
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -297,6 +304,38 @@ public class User{
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public List<Notificacoes> getNotificacoes() {
+		return notificacoes;
+	}
+
+	public void setNotificacoes(List<Notificacoes> notificacoes) {
+		this.notificacoes = notificacoes;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Boolean getReceberNotificacoes() {
+		return receberNotificacoes;
+	}
+
+	public void setReceberNotificacoes(Boolean receberNotificacoes) {
+		this.receberNotificacoes = receberNotificacoes;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	

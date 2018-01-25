@@ -61,6 +61,14 @@ public class Jogo {
 	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
 	private List<User> usersJogo;
 	
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
+//	private List<UserJogo2> usersJogo2;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="jogo_id", referencedColumnName="jogo_id", nullable = false, insertable = false, updatable = false)
+	private List<UserJogo2> usersJogo2;
+	
 	@Column(name = "user_id")
 	private Integer user_id;
 	
@@ -185,6 +193,12 @@ public class Jogo {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public List<UserJogo2> getUsersJogo2() {
+		return usersJogo2;
+	}
+	public void setUsersJogo2(List<UserJogo2> usersJogo2) {
+		this.usersJogo2 = usersJogo2;
 	}
 	
 

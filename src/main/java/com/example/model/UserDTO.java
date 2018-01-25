@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,11 +26,31 @@ public class UserDTO {
     private Date lastLoginAt;
     private String currentLoginIp;
     private String lastLoginIp;
+    private String foto;
     private Date updatedAt;
-    private boolean enabled;
+    private Boolean enabled;
     private String encryptedPassword;
+    private List<Jogo> jogos;
+    private List<Notificacoes> notificacoes;
+    private Boolean receberNotificacoes;
 
-    public String getEmail() {
+    public List<Notificacoes> getNotificacoes() {
+		return notificacoes;
+	}
+
+	public void setNotificacoes(List<Notificacoes> notificacoes) {
+		this.notificacoes = notificacoes;
+	}
+
+	public Boolean getReceberNotificacoes() {
+		return receberNotificacoes;
+	}
+
+	public void setReceberNotificacoes(Boolean receberNotificacoes) {
+		this.receberNotificacoes = receberNotificacoes;
+	}
+
+	public String getEmail() {
         return email;
     }
 
@@ -212,5 +233,30 @@ public class UserDTO {
 		this.iterations = iterations;
 		this.encryptedPassword = encryptedPassword;
 	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<Jogo> getJogos() {
+		return jogos;
+	}
+
+	public void setJogos(List<Jogo> jogos) {
+		this.jogos = jogos;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
     
 }
