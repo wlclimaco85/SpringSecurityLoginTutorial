@@ -1,21 +1,12 @@
 package com.example.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.example.framework.data.JPAEntity;
 
 /**
  * The core Job Entity
@@ -34,9 +25,6 @@ public class UserJogo2 {
 	       SIM, NAO
 	    }
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
 	private int id;
 	
     private Integer user_id;
@@ -91,7 +79,9 @@ public class UserJogo2 {
 		this.admin = admin;
 	}
 	
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	public int getId() {
 		return id;
 	}

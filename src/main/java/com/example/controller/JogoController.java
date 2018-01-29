@@ -151,6 +151,41 @@ public class JogoController {
 	}
 	
 	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/jogo/aprovarJogador", method = RequestMethod.POST)
+	public @ResponseBody APIResponse aprovarJogador(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		UserJogo2 user = mapper.readValue(users, UserJogo2.class);
+		ModelAndView modelAndView = new ModelAndView();
+		List<String> erros = new ArrayList<>();
+
+		
+		Notificacoes notificacoes = new Notificacoes();
+		switch (user.getStatus_user()) {
+		case CONFIRMADO:
+			jogoUserService.saveUserJogo(Arrays.asList(user));
+			notificacoes = new Notificacoes("CONFIRMADO", new Date(), "Titulo DISPONIVEL", NotificacoesStatus.NAOLIDO, user.getUser_id(),user.getJogo_id());
+			break;
+		case RECUSADO:
+			jogoUserService.saveUserJogo(Arrays.asList(user));
+			notificacoes = new Notificacoes("NAOVO", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, user.getUser_id(),user.getJogo_id());
+			break;
+		default:
+			break;
+		}
+		notificacoesService.insertNotificacoes(notificacoes);
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("user", user);
+		authResp.put("Error", erros);
+
+		return APIResponse.toOkResponse(authResp);
+	}
+	
+	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/jogo/insertUserJogo", method = RequestMethod.POST)
 	public @ResponseBody APIResponse insertJogoPorData(@RequestBody String users)
 			throws JsonParseException, JsonMappingException, IOException {
