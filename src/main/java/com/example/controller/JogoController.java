@@ -65,13 +65,13 @@ public class JogoController {
 		switch (user.getStatus()) {
 		case DISPONIVEL:
 			jogoService.saveUpdateJogo(user);
-			List<UserJogo2> userJogos = new ArrayList<>();
-			userJogos.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.CONFIRMADO,Admin.SIM));
-			jogoUserService.saveUserJogo(userJogos);
 			notificacoes = new Notificacoes("DISPONIVEL", new Date(), "Titulo DISPONIVEL", NotificacoesStatus.NAOLIDO, 10, 8);
 			break;
 		case ACONFIRMAR:
 			jogoService.saveUpdateJogo(user);
+			List<UserJogo2> userJogos = new ArrayList<>();
+			userJogos.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.CONFIRMADO,Admin.SIM));
+			jogoUserService.saveUserJogo(userJogos);
 			notificacoes = new Notificacoes("ACONFIRMAR", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, 10, 8);
 			break;
 		case OCUPADO:
