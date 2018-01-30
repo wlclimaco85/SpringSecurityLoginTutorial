@@ -24,8 +24,11 @@ public class JogoPorData{
 	@Column(name = "jogoPorData_id")
 	private Integer id;
 	
-	@Column(name = "Data")
-	private Date data;
+	@Column(name = "DataInicial")
+	private Date dataInicial;
+	
+	@Column(name = "DataFinal")
+	private Date dataFinal;
 	
 	@Column(name = "jogo_id")
 	private Integer jogoId;
@@ -58,12 +61,22 @@ public class JogoPorData{
 		this.id = id;
 	}
 
-	public Date getData() {
-		return data;
+
+
+	public Date getDataInicial() {
+		return dataInicial;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
+	}
+
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 	public Integer getJogoId() {
@@ -100,10 +113,11 @@ public class JogoPorData{
 
 	
 
-	public JogoPorData(Date data, Integer jogoId, Integer userId, StatusJogoPorData status, Integer nota, Integer qntGols,
-			int quadraId, String horaInicial, String horaFinal, Dias dia) {
+	public JogoPorData(Date dataInicial,Date dataFInal, Integer jogoId, Integer userId, StatusJogoPorData status, Integer nota, Integer qntGols,
+			int quadraId) {
 		super();
-		this.data = data;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataFInal;
 		this.user_id = userId;
 		this.jogoId = jogoId;
 		this.status = status;
