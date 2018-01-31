@@ -24,8 +24,8 @@ public class JogoPorData{
 	@Column(name = "jogoPorData_id")
 	private Integer id;
 	
-	@Column(name = "DataInicial")
-	private Date dataInicial;
+	@Column(name = "Data")
+	private Date data;
 	
 	@Column(name = "DataFinal")
 	private Date dataFinal;
@@ -63,12 +63,14 @@ public class JogoPorData{
 
 
 
-	public Date getDataInicial() {
-		return dataInicial;
+
+
+	public Date getData() {
+		return data;
 	}
 
-	public void setDataInicial(Date dataInicial) {
-		this.dataInicial = dataInicial;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public Date getDataFinal() {
@@ -116,7 +118,7 @@ public class JogoPorData{
 	public JogoPorData(Date dataInicial,Date dataFInal, Integer jogoId, Integer userId, StatusJogoPorData status, Integer nota, Integer qntGols,
 			int quadraId) {
 		super();
-		this.dataInicial = dataInicial;
+		this.data = dataInicial;
 		this.dataFinal = dataFInal;
 		this.user_id = userId;
 		this.jogoId = jogoId;

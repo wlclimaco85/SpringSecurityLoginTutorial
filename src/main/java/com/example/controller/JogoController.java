@@ -342,7 +342,7 @@ public class JogoController {
 		for (Jogo jogo : quadra) {
 			HashMap<Integer, StatusJogoPorData> userConfirm = new HashMap<Integer, StatusJogoPorData>();
 			for (JogoPorData jogoPorData : jogo.getJogos()) {
-				List<JogoPorData> userConfirmDTO = jogoService.findJogoPorDataUserConfirmDTO(jogo.getId(),jogoPorData.getDataInicial());
+				List<JogoPorData> userConfirmDTO = jogoService.findJogoPorDataUserConfirmDTO(jogo.getId(),jogoPorData.getData());
 				for (JogoPorData jogoPorData2 : userConfirmDTO) {
 					userConfirm.put(jogoPorData2.getUser_id(), jogoPorData2.getStatus());
 				}

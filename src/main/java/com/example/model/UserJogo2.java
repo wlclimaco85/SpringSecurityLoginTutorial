@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +30,8 @@ public class UserJogo2 {
 	private int id;
 	
     private Integer user_id;
+    private Integer aprovadoPor;
+    private Date aprovadoDate;
     private Integer jogo_id;
     private StatusUser status_user;
     private Admin admin;
@@ -90,6 +94,20 @@ public class UserJogo2 {
 	}
 	public UserJogo2() {
 		
+	}
+	@Column
+	public Integer getAprovadoPor() {
+		return aprovadoPor;
+	}
+	public void setAprovadoPor(Integer aprovadoPor) {
+		this.aprovadoPor = aprovadoPor;
+	}
+	@Column
+	public Date getAprovadoDate() {
+		return aprovadoDate;
+	}
+	public void setAprovadoDate(Date aprovadoDate) {
+		this.aprovadoDate = aprovadoDate;
 	}
 
     
