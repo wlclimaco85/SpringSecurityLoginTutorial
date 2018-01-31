@@ -15,6 +15,10 @@ import javax.validation.constraints.NotNull;
  *
  * Created by Y.Kamesh on 8/2/2015.
  */
+/**
+ * @author Washington
+ *
+ */
 @Entity
 @Table(name = "user_jogos")
 public class UserJogo2 {
@@ -29,6 +33,9 @@ public class UserJogo2 {
 	
 	private int id;
 	
+    /**
+     * 
+     */
     private Integer user_id;
     private Integer aprovadoPor;
     private Date aprovadoDate;
