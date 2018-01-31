@@ -33,7 +33,7 @@ public class UserJogo2 {
 	
 	private int id;
 	
-    /**
+    /**dsad
      * 
      */
     private Integer user_id;
