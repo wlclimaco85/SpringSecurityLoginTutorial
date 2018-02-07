@@ -1,155 +1,32 @@
 package com.example.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.example.framework.api.APIResponse;
-import com.example.model.User;
-import com.example.service.UserService;
+import com.example.model.ChatMessage;
 
-
+/**
+ * Created by rajeevkumarsingh on 24/07/17.
+ */
 @Controller
 public class ChatController {
 
-	@Autowired
-	private UserService userService;
-
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/chat/message/insert", method = RequestMethod.POST)
-	public @ResponseBody APIResponse createNewMensagem(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
-
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
-
-
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
-	}
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/chat/message/update", method = RequestMethod.POST)
-	public @ResponseBody APIResponse updateMensagem(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
-
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
-
-
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
-	}
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/chat/message/delete", method = RequestMethod.POST)
-	public @ResponseBody APIResponse deleteMensagem(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
-
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
-
-
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
-	}
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/chat/message/fetchByUser", method = RequestMethod.POST)
-	public @ResponseBody APIResponse fetchByUser(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		List<String> erros = new ArrayList<>();
-		User userExists = userService.findUserByEmail(user.getEmail());
-		if (userExists != null) {
-			erros.add("There is already a user registered with the email provided");
-		}
-
-			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new User());
-			modelAndView.setViewName("registration");
-
-
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
-	}
-
-	private void createAuthResponse(User user, HashMap<String, Object> authResp,ArrayList<String> erros) {
-        String token = "";
-        		//Jwts.builder().setSubject(user.getEmail())
-               // .claim("role", user.getRole().name()).setIssuedAt(new Date())
-              // .signWith(SignatureAlgorithm.HS256, JWTTokenAuthFilter.JWT_KEY).compact();
-        authResp.put("token", token);
-        authResp.put("user", user);
-        authResp.put("Error", erros);
+    @MessageMapping("/chat.sendMessage")
+    @SendTo("/topic/public")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+        return chatMessage;
     }
 
+    @MessageMapping("/chat.addUser")
+    @SendTo("/topic/public")
+    public ChatMessage addUser(@Payload ChatMessage chatMessage,
+                               SimpMessageHeaderAccessor headerAccessor) {
+        // Add username in web socket session
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        return chatMessage;
+    }
 
 }
