@@ -19,13 +19,13 @@ import javax.persistence.Table;
 @Table(name = "jogo")
 public class Jogo {
 	 public enum Confirmacao {
-	        SEMANAL, MENSAL, ANUAL, NUNCA
+	        FIXO,SOHOJE, MENSAL, ANUAL
 	    }
-	 
+
 	 public enum Dias {
 	       DOMINGO, SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO
 	    }
-	 
+
 	 public enum Status {
 	       DISPONIVEL, ACONFIRMAR, OCUPADO, INDISPONIVEL, CONFIRMAR, DESMARCAR, EXCLUIR, SOLICITAR
 	    }
@@ -37,14 +37,14 @@ public class Jogo {
 	private String nome;
 	@Column(name = "descricao")
 	private String descricao;
-	
+
 	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	//@JoinColumn(name="para_jogo_id", referencedColumnName="jogo_id")
 //	private List<Notificacoes> notificacoes;
-	
+
 	//@ManyToMany(cascade = CascadeType.ALL)
 	//@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	
+
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name="para_jogo_id", referencedColumnName="jogo_id", nullable = false, insertable = false, updatable = false)
 //	private List<Notificacoes> notificacoes;
@@ -52,66 +52,66 @@ public class Jogo {
 //	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 //	@JoinColumn(name="user_id", referencedColumnName="user_id", nullable = false, insertable = false, updatable = false)
 //	private User userId;
-	
+
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-//	
-	
+//
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
 	private List<User> usersJogo;
-	
+
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
 //	private List<UserJogo2> usersJogo2;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name="jogo_id", referencedColumnName="jogo_id", nullable = false, insertable = false, updatable = false)
 	private List<UserJogo2> usersJogo2;
-	
+
 	@Column(name = "user_id")
 	private Integer user_id;
-	
-	
-	
+
+
+
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinTable(joinColumns = @JoinColumn(name= "jogo_id", insertable = false,unique = false, nullable = false, updatable = false))
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name="jogo_id", referencedColumnName="jogo_id", nullable = false, insertable = false, updatable = false)
 	private List<JogoPorData> jogos;
-	
+
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JoinTable(name = "user_jogos",  joinColumns = {
 //			@JoinColumn(name = "jogo_id", nullable = false, updatable = false) },
 //			inverseJoinColumns = { @JoinColumn(name = "user_id",
 //					nullable = false, updatable = false) })
 //	private Set<User> user;
-	
+
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 //	private List<User> users;
-	
+
 	@Column(name = "aceitaExterno")
 	private String aceitaExterno;
-	
+
 	@Column(name = "confirmacao")
 	private Confirmacao confirmacao;
-	
+
 	@Column(name = "quadra_id")
 	private Integer quadraId;
-	
+
 	@Column(name = "horaInicial")
 	private String horaInicial;
-	
+
 	@Column(name = "horaFinal")
 	private String horaFinal;
-	
+
 	@Column(name = "dia")
 	private Dias dia;
-	
+
 	@Column(name = "status")
 	private Status status;
-	
+
 
 	public String getNome() {
 		return nome;
@@ -125,8 +125,8 @@ public class Jogo {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
+
+
 	public String getAceitaExterno() {
 		return aceitaExterno;
 	}
@@ -200,7 +200,7 @@ public class Jogo {
 	public void setUsersJogo2(List<UserJogo2> usersJogo2) {
 		this.usersJogo2 = usersJogo2;
 	}
-	
 
-	
+
+
 }
