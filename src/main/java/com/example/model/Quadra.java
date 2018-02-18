@@ -21,10 +21,24 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "quadra")
 public class Quadra{
 
+	 public enum Tipo {
+		 SALAO, SOCIETY, GRAMA, TERRA
+	    }
+	 
+	 public enum Cobertura {
+		 SIM, NAO, SEMI, PARCIAL
+	    }
+	 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "quadra_id")
 	private int id;
+	
+	@Column(name = "tipo")
+	private Tipo tipo;
+	
+	@Column(name = "cobertura")
+	private Cobertura cobertura;
 	
 	@Column(name = "nome")
 	@NotEmpty(message = "*Please provide an cep")
@@ -145,6 +159,22 @@ public class Quadra{
 
 	public void setEmpresaId(String empresaId) {
 		this.empresaId = empresaId;
+	}
+
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+
+	public Cobertura getCobertura() {
+		return cobertura;
+	}
+
+	public void setCobertura(Cobertura cobertura) {
+		this.cobertura = cobertura;
 	}
 
 

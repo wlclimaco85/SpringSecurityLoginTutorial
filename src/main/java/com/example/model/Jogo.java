@@ -71,6 +71,9 @@ public class Jogo {
 
 	@Column(name = "user_id")
 	private Integer user_id;
+	
+	@Column(name = "maximoConfirmados")
+	private Integer maximoConfirmados;
 
 
 
@@ -199,6 +202,12 @@ public class Jogo {
 	}
 	public void setUsersJogo2(List<UserJogo2> usersJogo2) {
 		this.usersJogo2 = usersJogo2;
+	}
+	public Integer getMaximoConfirmados() {
+		return maximoConfirmados;
+	}
+	public void setMaximoConfirmados(Integer maximoConfirmados) {
+		this.maximoConfirmados = maximoConfirmados;
 	}
 
 
