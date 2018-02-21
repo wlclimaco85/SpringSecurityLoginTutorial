@@ -75,6 +75,8 @@ public class JogoController {
 			userJogos.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.CONFIRMADO,Admin.SIM));
 			jogoUserService.saveUserJogo(userJogos);
 			notificacoes = new Notificacoes("ACONFIRMAR", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, 10, 8);
+			notificacoes.setParaJogoId(user.getId());
+			notificacoes.setParaEmprId(82);
 			break;
 		case OCUPADO:
 			jogoService.saveUpdateJogo(user);
@@ -82,7 +84,17 @@ public class JogoController {
 			break;
 		case INDISPONIVEL:
 			jogoService.saveUpdateJogo(user);
+			for (UserJogo2 userJogo2 : user.getUsersJogo2()) {
+				if(Admin.SIM.equals(userJogo2.getAdmin())) {
+					notificacoes = new Notificacoes("INDISPONIVEL", new Date(), "Titulo INDISPONIVEL", NotificacoesStatus.NAOLIDO, 10,8);
+					notificacoes.setParaJogoId(user.getId());
+					notificacoes.setParaUserId(userJogo2.getUser_id());
+					notificacoesService.insertNotificacoes(notificacoes);
+				}
+			}
 			notificacoes = new Notificacoes("INDISPONIVEL", new Date(), "Titulo INDISPONIVEL", NotificacoesStatus.NAOLIDO, 10,8);
+			notificacoes.setParaJogoId(user.getId());
+			
 			break;
 		case CONFIRMAR:
 			jogoService.saveUpdateJogo(user);

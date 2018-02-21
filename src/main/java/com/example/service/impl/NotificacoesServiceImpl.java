@@ -34,13 +34,24 @@ public class NotificacoesServiceImpl implements NotificacoesService{
 	}
 
 	@Override
-	public List<Notificacoes> findNotificacoesByUser(String email) {
-		return null;//notificacoesRepository.findNotificacoesByEmail(email);
+	public List<Notificacoes> findAllNotificacoes() {
+		return notificacoesRepository.findAll();
 	}
 
 	@Override
-	public List<Notificacoes> findAllNotificacoes() {
-		return notificacoesRepository.findAll();
+	public List<Notificacoes> findNotificacoesByUser(Integer email) {
+		// TODO Auto-generated method stub
+		return notificacoesRepository.findNotificacoesByUser(email);
+	}
+
+	@Override
+	public List<Notificacoes> findNotificacoesByEmpr(Integer email) {
+		return notificacoesRepository.findNotificacoesByEmpr(email);
+	}
+
+	@Override
+	public List<Notificacoes> findNotificacoesByJogo(Integer email) {
+		return notificacoesRepository.findNotificacoesByJogo(email);
 	}
 
 	
