@@ -35,7 +35,7 @@ public class QuadraServiceImpl implements QuadraService{
 	}
 
 	@Override
-	public List<Quadra> findAllQuadraById(Integer id) {
+	public Quadra findAllQuadraById(Integer id) {
 
 		return quadraRepository.findAllQuadraById(id);
 	}

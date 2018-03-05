@@ -68,7 +68,7 @@ public class QuadraController {
 	@RequestMapping(value = "/quadra/findAllQuadraById", method = RequestMethod.POST)
 	public ResponseEntity<List<Quadra>> findAllQuadraById(@Valid Quadra user, BindingResult bindingResult) {
 
-		List<Quadra> quadra = quadraService.findAllQuadraById(user.getId());
+		List<Quadra> quadra = quadraService.findQuadraByUser(user.getId());
 
 		return new ResponseEntity<List<Quadra>>(quadra, HttpStatus.OK);
 	}

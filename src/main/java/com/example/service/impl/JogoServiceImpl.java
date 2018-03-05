@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Jogo;
+import com.example.model.Jogo.Status;
 import com.example.model.JogoPorData;
 import com.example.model.User;
 import com.example.model.UserConfirmDTO;
@@ -77,6 +78,17 @@ public class JogoServiceImpl implements JogoService{
 	public List<JogoPorData> findJogoPorDataUserConfirmDTO(Integer JogoId, Date dataJogo) {
 		return jogoPorDataRepository.findJogoPorDataUserConfirmDTO(dataJogo,JogoId);
 	}
+	@Override
+	public Jogo findJogoById(Integer empresa) {
+		return jogoRepository.findJogoById(empresa);
+	}
+	@Override
+	public void updateStatus(Status indisponivel, Integer id) {
+			jogoRepository.updateStatus(indisponivel,id);
+			
+		
+	}
+	
 	
 
 }

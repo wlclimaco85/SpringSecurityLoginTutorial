@@ -22,5 +22,5 @@ public interface QuadraRepository extends JpaRepository<Quadra, Long> {
 	@Query("select u from Empresa u where u.id = ?1")
 	public List<Empresa> findAllQuadraByEmpresa(Integer empresaId);
 	@Query("select u from Quadra u where u.id = ?1")
-	public List<Quadra> findAllQuadraById(Integer id);
+	public Quadra findAllQuadraById(Integer id);
 }

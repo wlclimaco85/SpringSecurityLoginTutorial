@@ -30,6 +30,7 @@ import com.example.model.JogoPorData;
 import com.example.model.JogoPorData.StatusJogoPorData;
 import com.example.model.Notificacoes;
 import com.example.model.Notificacoes.NotificacoesStatus;
+import com.example.model.Quadra;
 import com.example.model.User;
 import com.example.model.UserJogo2;
 import com.example.model.UserJogo2.Admin;
@@ -37,6 +38,8 @@ import com.example.model.UserJogo2.StatusUser;
 import com.example.service.JogoService;
 import com.example.service.JogoUserService;
 import com.example.service.NotificacoesService;
+import com.example.service.QuadraService;
+import com.example.service.UserService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +49,12 @@ public class JogoController {
 
 	@Autowired
 	private JogoService jogoService;
+	
+	@Autowired
+	private QuadraService quadraService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private NotificacoesService notificacoesService;
@@ -64,17 +73,26 @@ public class JogoController {
 
 		
 		Notificacoes notificacoes = new Notificacoes();
+		Quadra quadra = new Quadra();
+		User userss =  new User();
+		Jogo jogo = new Jogo();
+		
+		String noticicacaoText = "";//+ quadra.getNome() + " " + jogo.getHoraInicial() + " - " + jogo.getHoraFinal() + " " + "" + userss.getName() + " " + userss.getLastName(); 
 		switch (user.getStatus()) {
 		case DISPONIVEL:
 			jogoService.saveUpdateJogo(user);
 			notificacoes = new Notificacoes("DISPONIVEL", new Date(), "Titulo DISPONIVEL", NotificacoesStatus.NAOLIDO, 10, 8);
 			break;
 		case ACONFIRMAR:
+			quadra = quadraService.findAllQuadraById(user.getQuadraId());
+			userss =  userService.findUserById(user.getUser_id());
+			jogo = jogoService.findJogoById(user.getId());
 			jogoService.saveUpdateJogo(user);
 			List<UserJogo2> userJogos = new ArrayList<>();
 			userJogos.add(new UserJogo2(user.getUser_id(),user.getId(),StatusUser.CONFIRMADO,Admin.SIM));
 			jogoUserService.saveUserJogo(userJogos);
-			notificacoes = new Notificacoes("ACONFIRMAR", new Date(), "Titulo ACONFIRMAR", NotificacoesStatus.NAOLIDO, 10, 8);
+			noticicacaoText = "Acabo de ser solicitado na quadra : " + quadra.getNome() + " dia: " +jogo.getDia().name().toLowerCase() + " horario (" + jogo.getHoraInicial() + " - " + jogo.getHoraFinal() + "). " + "Solicitado por : " + userss.getName() + " " + userss.getLastName(); 
+			notificacoes = new Notificacoes("ACONFIRMAR", new Date(), noticicacaoText, NotificacoesStatus.NAOLIDO, 10, 8);
 			notificacoes.setParaJogoId(user.getId());
 			notificacoes.setParaEmprId(82);
 			break;
@@ -83,11 +101,19 @@ public class JogoController {
 			notificacoes = new Notificacoes("OCUPADO", new Date(), "Titulo OCUPADO", NotificacoesStatus.NAOLIDO, 10,8);
 			break;
 		case INDISPONIVEL:
-			jogoService.saveUpdateJogo(user);
+			Jogo jogoa = jogoService.findJogoById(user.getId());
+		//	jogoService.updateStatus(Status.INDISPONIVEL,user.getId());
+			jogoa.setStatus(Status.INDISPONIVEL);
+			jogoService.saveUpdateJogo(jogoa);
+			quadra = quadraService.findAllQuadraById(user.getQuadraId());
+			userss =  userService.findUserById(user.getUser_id());
+			user.setUsersJogo2(jogoUserService.findJogoUserByJogoId(user.getId()));
+			
 			for (UserJogo2 userJogo2 : user.getUsersJogo2()) {
 				if(Admin.SIM.equals(userJogo2.getAdmin())) {
-					notificacoes = new Notificacoes("INDISPONIVEL", new Date(), "Titulo INDISPONIVEL", NotificacoesStatus.NAOLIDO, 10,8);
-					notificacoes.setParaJogoId(user.getId());
+					noticicacaoText = "Foi Aprovado na quadra : " + quadra.getNome() + " dia: " +jogoa.getDia().name().toLowerCase() + " horario (" + jogoa.getHoraInicial() + " - " + jogoa.getHoraFinal() + "). " + "Aprovado por : " + userss.getName() + " " + userss.getLastName(); 
+					notificacoes = new Notificacoes("INDISPONIVEL", new Date(), noticicacaoText, NotificacoesStatus.NAOLIDO, 10,8);
+					notificacoes.setParaJogoId(jogoa.getId());
 					notificacoes.setParaUserId(userJogo2.getUser_id());
 					notificacoesService.insertNotificacoes(notificacoes);
 				}

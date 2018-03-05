@@ -47,6 +47,7 @@ public class UserJogo2 {
     
     @NotNull
     @Column
+    
 	public Integer getUser_id() {
 		return user_id;
 	}
