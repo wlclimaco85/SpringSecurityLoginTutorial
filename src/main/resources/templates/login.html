@@ -1,36 +1,45 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<title>Spring Security Tutorial</title>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<div class="tabs-striped  tabs-background-positive tabs-color-light">
+    <div class="tabs">
+      <a class="tab-item active" href="#/app/login"><i class="icon ion-unlocked"></i> Login</a>
+      <a class="tab-item" href="#/app/signup"> <i class="icon ion-person"></i> Sing Up </a>
+    </div>
+ </div>
 
-<body>
-	<form th:action="@{/registration}" method="get">
-		<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
-	</form>	
-	
-	<div class="container">
-		<img th:src="@{/images/login.jpg}" class="img-responsive center-block" width="300" height="300" alt="Logo" />
-		<form th:action="@{/login}" method="POST" class="form-signin">
-			<h3 class="form-signin-heading" th:text="Welcome"></h3>
-			<br/>
-			 
-			<input type="text" id="email" name="email"  th:placeholder="Email"
-				class="form-control" /> <br/> 
-			<input type="password"  th:placeholder="Password"
-				id="password" name="password" class="form-control" /> <br /> 
-				
-			<div align="center" th:if="${param.error}">
-				<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Login"></button>
-		</form>
-	</div>
-</body>
-</html>
+<ion-view view-title="Sign In" class="loginBg" hide-nav-bar="true"  ng-controller="LoginController as lc">
+
+    
+  <ion-content class="padding">
+  <form name="form" ng-submit="lc.login()" role="form">
+  <div ng-show="lc.error" class="alert alert-danger">{{lc.error}}</div>
+  <div class="row responsive-sm padding remvoeBP">
+      <div class="col">
+            <div class="app-logo"><img src="img/logo.png"></div> 
+            
+            <div class="list list-inset removePM">
+              <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && (form.email.$error.required || form.email.$error.email) }">
+                      <label class="item item-input"><input type="text" placeholder="Email Address"  ng-model="lc.user.email" required >
+                        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+                            <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Email is invalid</span>
+                      </label>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                    <label class="item item-input">
+                        <input type="password" name="password" id="password" class="form-control" ng-model="lc.user.password" required placeholder="Password" >
+                    </label>
+                    <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+              </div>
+            </div>
+
+            <div class="loginButton"> <button type="submit" class="button ion-unlocked button-block button-balanced" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Login</button></div>
+      </div>
+  </div>
+
+    <div class="row  padding removePM">
+      <div class="col"> <a class=" button-positive button button-block" ng-click="facebookSignIn()"><i class="icon ion-social-facebook"></i></a> </div>
+      <div class="col"> <a class="button-calm button button-block" ng-click="twitterSignIn()"><i class="icon ion-social-twitter"></i></a> </div>
+    </div>
+</form>
+  </ion-content>
+</ion-view>
+

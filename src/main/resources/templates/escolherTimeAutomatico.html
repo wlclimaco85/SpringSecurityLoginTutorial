@@ -1,0 +1,31 @@
+
+
+    <div ng-include="'/../templates/menuButton.html'"></div>
+
+<ion-view title="Escolher Time Automatico" id="page6">
+  <ion-content padding="true" class="has-header">
+    <section >
+      <div data-ng-controller="MeusJogosController  as ec">
+      <div class="">
+          <label class="item item-input"><input type="text" ng-model="rc.user.name" placeholder=" Nº De jogadores por time "> </label>
+      </div>
+      <div class="">
+      <ion-list id="notificaEs-list4">
+          <ion-item class="item-icon-left item-icon-right" id="notificaEs-list-item16">
+            <i class="icon ion-ionic"></i>
+            <span class="item-note">Teste</span>
+            <i class="icon ion-alert-circled icon-accessory"></i>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="row  padding removePM">
+          <div class="col"> <a class=" button-positive button button-block" ng-click="facebookSignIn()" uib-tooltip="Gerar Time!" tooltip-append-to-body="true"><i class="icon ion-social-facebook"></i></a> </div>
+        </div>
+        <div class="">
+          
+        </div>
+      </div>
+  </section>
+
+  </ion-content>
+</ion-view>

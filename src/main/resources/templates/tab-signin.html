@@ -1,0 +1,47 @@
+<div class="tabs-striped  tabs-background-positive tabs-color-light">
+    <div class="tabs">
+      <a class="tab-item active" href="#/app/login"><i class="icon ion-unlocked"></i> Login</a>
+      <a class="tab-item" href="#/app/signup"> <i class="icon ion-person"></i> Sing Up </a>
+    </div>
+ </div>
+
+<ion-view view-title="Sign In" class="loginBg" hide-nav-bar="true" >
+<!-- <ion-nav-title><img src="img/logo.png" width="40"></ion-nav-title> -->
+
+  <ion-content class="padding">
+
+  <div class="row responsive-sm padding remvoeBP"  ng-controller="LoginController as lc">
+	  <div class="col">
+
+			<div class="col-sm-12">
+				<img class="img-responsive center-block" src="https://www.freelogoservices.com/api/main/ph/zjHl2lgef9cYrQL0JFa7kzbw2vuDpBZNkBjO0Tp9OXdE9g5shnN1i...Bv9ettdV9dsBUGw0pY" />
+		</div>
+		<br>
+			<br>
+			<div class="list list-inset removePM">
+					<div ng-show="lc.error" class="alert alert-danger">{{lc.error}}</div>
+					<form name="form"  role="form">
+							<div ng-disabled="isSubmitted">
+			<div class="form-group" ng-class="{ 'has-error': form.email.$dirty && (form.email.$error.required || form.email.$error.email) }">
+					<label class="item item-input"><input type="email" placeholder="Email Address" name="email" id="email" class="form-control" ng-model="lc.user.email" required > </label>
+					<span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+					<span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Email is invalid</span>
+			</div>
+		<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+				<label class="item item-input"><input type="password" placeholder="Password" name="password" id="password" class="form-control" ng-model="lc.user.password" required /> </label>
+				<span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+			</div>
+		</div>
+		</div>
+			<div class="loginButton"><button ng-click="lc.login()" type="button" ng-disabled="form.$invalid || dataLoading" class="button ion-unlocked button-block button-balanced"> Login</button>  </div>
+	</form>
+	  </div>
+  </div>
+
+	<div class="row  padding removePM">
+	  <div class="col"> <a class=" button-positive button button-block" ng-click="facebookSignIn()"><i class="icon ion-social-facebook"></i></a> </div>
+	  <div class="col"> <a class="button-calm button button-block" ng-click="twitterSignIn()"><i class="icon ion-social-twitter"></i></a> </div>
+	</div>
+
+  </ion-content>
+</ion-view>

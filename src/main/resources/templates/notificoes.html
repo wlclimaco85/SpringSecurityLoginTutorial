@@ -1,0 +1,16 @@
+<div ng-include="'/../templates/menuButton.html'"></div>
+<ion-view title="Notificações" id="page3">
+  <ion-content padding="true" class="has-header">
+    <ion-list id="notificaEs-list4">
+      <div  data-ng-controller="NotificacaoController  as ec">
+          <div ng-repeat="notificacao in ec.notificacoesList">
+      <ion-item class="item-icon-left item-icon-right" id="notificaEs-list-item16">
+        <i class="icon ion-ionic"></i>
+        <span class="item-note">{{notificacao.titulo}}</span>
+        <i class="icon ion-alert-circled icon-accessory"></i>
+      </ion-item>
+      </div>
+    </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

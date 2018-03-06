@@ -1,0 +1,66 @@
+<div ng-include="'/../templates/menuButton.html'">
+</div>
+<ion-view view-title="Perfil">
+    <ion-content>
+        <ion-list>
+            <ion-item class="item item-avatar">
+                <div data-ng-controller="PerfilController">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Nome : </label>
+                            </div>
+                            <div class="col-sm-8 pull-right"><span><a href="#" editable-text="user.name" >{{ user.name || '0' }}</a></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Sobrenome : </label>
+                            </div>
+                            <div class="col-sm-8 pull-right"><span><a href="#" editable-text="user.lastName" >{{ user.lastName || '0' }}</a></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Email : </label>
+                            </div>
+                            <div class="col-sm-8 pull-right"><span><a href="#" editable-text="user.email" >{{ user.email || '0' }}</a></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Goleiro : </label>
+                            </div>
+                            <div class="col-sm-8 pull-right"><span><a href="#" editable-checkbox="user.isGoleiro">{{ user.isGoleiro && "Sim" || "Não" }}</a></span></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Receber Notificações : </label>
+                            </div>
+                            <div class="col-sm-8 pull-right"><span><a href="#" editable-checkbox="user.receberNotificacoes">{{ user.receberNotificacoes && "Sim" || "Não" }}</a></span></div>
+                        </div>
+                    </div>
+                    <a class="list-group-item" data-toggle="collapse" data-target="#sl1fff" data-parent="#menu"><span class="glyphicon glyphicon-resize-vertical"></span>Meus Jogos<span class="glyphicon glyphicon-list pull-right"></span></a>
+                    <div id="sl1fff" class="sublinks collapse" style="border: 1px solid rgb(221, 221, 221)">
+                        <div id="menu">
+                            <div class="panel list-group">
+                                <div ng-repeat="jogo in jogos | orderBy:'dia'">
+                                    <div class="well">
+                                        <a class="list-group-item" data-toggle="collapse" data-target="#sm10{{jogo.id-$index}}" data-parent="#menu"><span class="glyphicon glyphicon-home"></span> K10 SPORTS QUADRA-1</a>
+                                        <div id="sm10{{jogo.id-$index}}" class="sublinks collapse">
+                                            <a class="list-group-item small"> {{jogo.status}} - {{jogo.dia}}  {{jogo.horaInicial}} {{jogo.horaFinal}}.</a>
+                                        </div>
+                                        
+                                        <a class="list-group-item">Ações <span class="pull-right"> 
+                                            <button ng-click="gravarHorario(jogo, 'NAOVO')" class="btn btn-xs btn-warning glyphicon glyphicon-remove"   uib-tooltip="Sair!"    tooltip-append-to-body="true"></button><!-- Desmarcar -->
+                                        </span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

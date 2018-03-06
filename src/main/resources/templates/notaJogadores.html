@@ -1,0 +1,128 @@
+<style>
+  /* Hiding the checkbox, but allowing it to be focused */
+.badgebox
+{
+    opacity: 0;
+}
+
+.badgebox + .badge
+{
+    /* Move the check mark away when unchecked */
+    text-indent: -999999px;
+    /* Makes the badge's width stay the same checked and unchecked */
+	width: 27px;
+}
+
+.badgebox:focus + .badge
+{
+    /* Set something to make the badge looks focused */
+    /* This really depends on the application, in my case it was: */
+    
+    /* Adding a light border */
+    box-shadow: inset 0px 0px 5px;
+    /* Taking the difference out of the padding */
+}
+
+.badgebox:checked + .badge
+{
+    /* Move the check mark back when checked */
+	text-indent: 0;
+}
+</style>
+<div class="tabs-striped  tabs-background-positive tabs-color-light">
+  <div class="tabs">
+    <a ng-if="hasRole('EMPRESA')" class="tab-item active" href="#/app/cadastro"><i class="icon ion-android-clipboard"></i> Cadastro </a>
+    <a ng-if="hasRole('EMPRESA')" class="tab-item" href="#/app/horarios"> <i class="icon ion-ios-time-outline"></i> Horarios </a>
+    <a ng-if="hasRole('ADMIN')" class="tab-item" href="#/app/bQuadra"> <i class="icon ion-ios-time-outline"></i> Buscar Quadra </a>
+    <a ng-if="hasRole('ADMIN')" class="tab-item" href="#/app/meusJogos"> <i class="icon ion-ios-time-outline"></i> Meus Jogos </a>
+    <a ng-if="hasRole('EMPRESA')  || hasRole('ADMIN')" class="tab-item" href="#/app/notificacao"> <i class="icon ion-ios-time-outline"></i> Notificações </a>
+    <a ng-if="hasRole('EMPRESA')  || hasRole('ADMIN')" class="tab-item" href="#/app/msg"> <i class="icon ion-ios-time-outline"></i> Msg </a>
+    <a ng-if="hasRole('EMPRESA')  || hasRole('ADMIN')" class="tab-item" href="#/app/fotos"> <i class="icon ion-images"></i> Fotos </a>
+  </div>
+  </div>
+<ion-view title="Meus Jogos" id="page5">
+  <ion-content padding="true" class="has-header">
+      <!-- Accordion -->
+
+
+    <section class="panel panel-default">
+      <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Accordion or Collapse</div>
+      <div class="panel-body" data-ng-controller="MeusJogosController  as ec">
+          <p>Open only one at a time?</p>
+          <label class="switch switch-success"><input type="checkbox" ng-model="oneAtATime"><i></i></label>
+          <hr>
+          <div class="row" style="width:100%;">
+                <div class="panel panel-default panel-minimal" style="width:100%;">
+                    <div class="divider divider-md"></div>
+                    <div class="panel-heading">Notas</div>
+                    <div class="panel-body" style="width:100%;">
+                        <div data-echarts data-options="ec.combo.options" style="height: 350px;width:100%;"></div>
+                    </div>
+                </div>
+    
+             </div>
+          <hr>
+          <div class="row" style="width:100%;">
+                <div class="panel panel-default panel-minimal" style="width:100%;">
+                    <div class="divider divider-md"></div>
+                    <div class="panel-heading">Gols</div>
+                    <div class="panel-body" style="width:100%;">
+                        <div data-echarts data-options="ec.combo.options" style="height: 350px;width:100%;"></div>
+                    </div>
+                </div>
+    
+             </div>
+          <hr>
+        
+        </div>
+  </section>
+  <section class="panel panel-default">
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Meus Jogos</h3>
+            </div>
+            <div class="panel-body">
+              <div id="menu">
+                <div class="panel list-group">
+                 <a class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu"><span class="glyphicon glyphicon-envelope"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. </a>
+                 <div id="sm" class="sublinks collapse">
+                  <a class="list-group-item small">ttttttttttttttttttttttttttd  ttttttttttttttttttttttttttt tttttttttttttttt</a>
+                  </div>
+                  <a class="list-group-item" data-toggle="collapse" data-target="#sl" data-parent="#menu">Jogadores <span class="badge badge-success">2</span></a>
+                 <div id="sl" class="sublinks collapse">
+                  <a class="list-group-item small"><span class="item-avatar item-icon-right dark" id="horarios-list-item10"><h2dark>Item<i class="icon ion-android-add-circle"></i><ion-option-button class="button-dark">Salvae</ion-option-button><ion-option-button class="button-light">dddd</ion-option-button></h2dark></span></a>
+                  <a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> saved tasks</a>
+                  <a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> add new task</a>
+                 </div>
+                 <a  class="list-group-item">10/10/2017 <span class="pull-right">  <button class="btn btn-xs btn-info glyphicon glyphicon-send" ></button> <button class="btn btn-xs btn-warning glyphicon glyphicon-trash"></button></span></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="panel panel-success">
+          <div class="panel-heading">
+              <h3 class="panel-title">Meus Jogos para confirmar</h3>
+          </div>
+          <div class="panel-body">
+            <div id="menu">
+              <div class="panel list-group">
+               <a class="list-group-item" data-toggle="collapse" data-target="#sm10" data-parent="#menu"><span class="glyphicon glyphicon-envelope"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+               <div id="sm10" class="sublinks collapse">
+                <a class="list-group-item small">ttttttttttttttttttttttttttd  ttttttttttttttttttttttttttt tttttttttttttttt</a>
+                </div>
+               <a class="list-group-item" data-toggle="collapse" data-target="#sl1" data-parent="#menu">Jogadores <span class="badge badge-success">2</span></a>
+               <div id="sl1" class="sublinks collapse">
+                <a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> saved tasks</a>
+                <a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> add new task</a>
+               </div>
+               <a  class="list-group-item">10/10/2017 <span class="pull-right">  <button uib-popover="On mouse enter!" popover-trigger="'mouseenter'" class="btn btn-xs btn-info glyphicon glyphicon-send" ></button> <button uib-popover="On mouse enter 2!" popover-trigger="'mouseenter'" class="btn btn-xs btn-warning glyphicon glyphicon-trash"></button></span></a>
+              </div>
+              </div>
+          </div>
+      </div>
+      
+</section>
+  </ion-content>
+</ion-view>
