@@ -6,5 +6,6 @@ angular.module('MobileAngularUiExamples')
 
 function AdminController($rootScope, $location) {
     var admin = this;
+    
     admin.currentUser = null;
 };
