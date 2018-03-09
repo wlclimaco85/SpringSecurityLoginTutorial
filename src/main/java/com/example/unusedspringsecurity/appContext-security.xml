@@ -13,6 +13,13 @@
         <intercept-url pattern="/favicon.ico" access="permitAll"/>
         <intercept-url pattern="../../../webapp/webui/views/common/footer.html" access="permitAll" />
         <intercept-url pattern="../../../webapp/res/css/app.css" access="permitAll" />
+        <intercept-url pattern="../../../webapp/res/css/**" access="permitAll" />
+        <intercept-url pattern="../../../webapp/res/css/**/**" access="permitAll" />
+        <intercept-url pattern="../../../webapp/res/css/**/**/**" access="permitAll" />
+         <intercept-url pattern="../../../webapp/res/js/**" access="permitAll" />
+        <intercept-url pattern="../../../webapp/res/js/**/**" access="permitAll" />
+        <intercept-url pattern="../../../webapp/res/js/**/**/**" access="permitAll" />
+        <intercept-url pattern="../../../webapp/res/css/app.css" access="permitAll" />
         <intercept-url pattern="../../../webapp/res/js/angular-cookies/angular-cookies.js" access="permitAll" />
 
         <intercept-url pattern="/dashboard" access="hasRole('USER')" />
