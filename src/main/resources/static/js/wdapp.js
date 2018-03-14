@@ -62,7 +62,7 @@ var WebDaptiveAppConfig = {
 				var config, url;
 				url = '/' + route;
 				config = {
-				templateUrl: 'views/' + route + '.html'
+				templateUrl: '' + route + '.html'
 				};
 				$routeProvider.when(url, config);
 				return $routeProvider;

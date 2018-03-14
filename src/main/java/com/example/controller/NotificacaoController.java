@@ -40,58 +40,42 @@ public class NotificacaoController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/notificacao/update", method = RequestMethod.POST)
-	public @ResponseBody APIResponse updateMensagem(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-//		List<String> erros = new ArrayList<>();
-//		User userExists = userService.findUserByEmail(user.getEmail());
-//		if (userExists != null) {
-//			erros.add("There is already a user registered with the email provided");
-//		}
-//
-//			userService.saveUser(user);
-//			modelAndView.addObject("successMessage", "User has been registered successfully");
-//			modelAndView.addObject("user", new User());
-//			modelAndView.setViewName("registration");
+	public @ResponseBody APIResponse updateMensagem(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
 
-
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", null);
-
-
-    return APIResponse.toOkResponse(authResp);
+		ObjectMapper mapper = new ObjectMapper();
+		Notificacoes notificacao = mapper.readValue(users, Notificacoes.class);
+		List<String> erros = new ArrayList<>();
+		userService.updateNotificacoes(notificacao);
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("Notificacao", notificacao);
+		authResp.put("Error", erros);
+		
+		  return APIResponse.toOkResponse(authResp);
 	}
 
 	//@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/notificacao/delete", method = RequestMethod.POST)
-	public @ResponseBody APIResponse deleteMensagem(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
+	public @ResponseBody APIResponse deleteMensagem(@RequestBody String users)
+			throws JsonParseException, JsonMappingException, IOException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Notificacoes notificacao = mapper.readValue(users, Notificacoes.class);
 		List<String> erros = new ArrayList<>();
-//		User userExists = userService.findUserByEmail(user.getEmail());
-//		if (userExists != null) {
-//			erros.add("There is already a user registered with the email provided");
-//		}
-//
-//			userService.saveUser(user);
-//			modelAndView.addObject("successMessage", "User has been registered successfully");
-//			modelAndView.addObject("user", new User());
-//			modelAndView.setViewName("registration");
-
-
-	HashMap<String, Object> authResp = new HashMap<>();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object token = auth.getCredentials();
-	authResp.put("token", token);
-	authResp.put("user", user);
-	authResp.put("Error", erros);
-
-
-    return APIResponse.toOkResponse(authResp);
+		userService.deleteNotificacoes(notificacao);
+		HashMap<String, Object> authResp = new HashMap<>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
+		Object token = auth.getCredentials();
+		authResp.put("token", token);
+		authResp.put("Notificacao", notificacao);
+		authResp.put("Error", erros);
+		
+		  return APIResponse.toOkResponse(authResp);
 	}
 
 	//@CrossOrigin(origins = "*")
@@ -106,7 +90,7 @@ public class NotificacaoController {
 		{
 			notificacaoList = userService.findNotificacoesByEmpr(notificacaoRequest.getEmpresaId());
 		}else {
-			notificacaoList = userService.findNotificacoesByEmpr(notificacaoRequest.getUserId());
+			notificacaoList = userService.findNotificacoesByUser(notificacaoRequest.getUserId());
 		}
 	HashMap<String, Object> authResp = new HashMap<>();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
