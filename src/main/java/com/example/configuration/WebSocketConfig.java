@@ -13,7 +13,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
     }
 
     @Override
@@ -25,11 +25,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         //   Use this for enabling a Full featured broker like RabbitMQ
 
 
-        registry.enableStompBrokerRelay("/topic")
-                .setRelayHost("localhost")
-                .setRelayPort(61613)
-                .setClientLogin("guest")
-                .setClientPasscode("guest");
+//        registry.enableStompBrokerRelay("/topic")
+//                .setRelayHost("localhost")
+//                .setRelayPort(61613)
+//                .setClientLogin("guest")
+//                .setClientPasscode("guest");
        
     }
 }
